@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="159dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:background="@color/card_bg"
             android:clickable="true"
             android:focusable="true"
@@ -87,7 +87,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="126dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:background="@color/card_bg"
             android:orientation="horizontal"
             android:padding="14dp">
@@ -251,8 +251,9 @@
                         <TextView
                             android:id="@+id/date_1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="32dp"
                             android:layout_weight="2"
+                            android:gravity="center|start"
                             android:text="2024-11-11"
                             android:textColor="@android:color/white" />
 
@@ -264,16 +265,18 @@
                         <TextView
                             android:id="@+id/min_temp_1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="32dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="47°"
                             android:textColor="@android:color/white" />
 
                         <TextView
                             android:id="@+id/max_temp_1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="32dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="71°"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
