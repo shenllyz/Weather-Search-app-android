@@ -1,14 +1,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/icon_bg" />
-    <item
-        android:drawable="@drawable/weather_partly_snowy_rainy"
-        android:gravity="center"
-        android:width="48dp"
-        android:height="48dp"/>
     <item
         android:drawable="@drawable/splash_powered_tio"
-        android:gravity="bottom|center_horizontal"
-        android:width="250dp"
-        android:height="36dp"
-        android:bottom="100dp"/>
+        android:gravity="center"
+        android:width="200dp"
+        android:height="36dp"/>
 </layer-list>
