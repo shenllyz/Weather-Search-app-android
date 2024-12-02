@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/black"
     android:padding="12dp"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -282,10 +282,6 @@
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
-
-            <SearchView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
         </LinearLayout>
     </LinearLayout>
