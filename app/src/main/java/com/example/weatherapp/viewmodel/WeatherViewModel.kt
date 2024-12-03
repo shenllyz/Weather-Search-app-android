@@ -79,9 +79,9 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
                 _latitude.value = lat.toDouble()
                 _longitude.value = lon.toDouble()
+                _formattedAddress.value = "$city, $state"
 
-                // Fetch weather data using the obtained latitude and longitude
-                loadWeatherData(lat.toDouble(), lon.toDouble())
+//                loadWeatherData(lat.toDouble(), lon.toDouble())
             },
             onError = { errorMessage ->
 
