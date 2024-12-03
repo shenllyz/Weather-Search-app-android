@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="search_hint">WeatherApp</string>
 </resources>

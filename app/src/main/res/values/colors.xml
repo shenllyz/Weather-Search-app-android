@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="icon_bg">#4153b6</color>
     <color name="card_bg">#272727</color>
+    <color name="indicator_bg">#121212</color>
+    <color name="home_bg">#2e2e2e</color>
 </resources>
