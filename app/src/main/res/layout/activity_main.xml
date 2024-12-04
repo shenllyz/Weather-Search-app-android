@@ -110,7 +110,7 @@
                     android:layout_gravity="start"
                     android:layout_marginStart="80dp"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/mostly_clear_day" />
+                    />
 
                 <LinearLayout
                     android:layout_width="186dp"
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:text="55°F"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:text="Mostly Clear"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="20dp" />
 
@@ -147,7 +147,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:paddingTop="2dp"
-                android:text="Los Angeles, California"
+                android:text="N/A"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
@@ -178,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="94%"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -210,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="3.64 mph"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -242,7 +242,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="9.07 mi"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -274,7 +274,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="30.0 inHg"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />

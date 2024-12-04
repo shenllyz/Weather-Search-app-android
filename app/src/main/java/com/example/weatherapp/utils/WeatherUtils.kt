@@ -60,4 +60,8 @@ object WeatherUtils {
     fun getWeatherDescription(weatherCode: Int): String {
         return weatherDescriptions[weatherCode] ?: "Unknown"
     }
+
+    fun getWeatherIcon(weatherCode: Int): Int {
+        return weatherIcons[weatherCode] as Int
+    }
 }

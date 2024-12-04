@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherapp.model.ApiResponse
+
 
 import org.json.JSONObject
 import com.example.weatherapp.repository.WeatherRepository
@@ -21,6 +21,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     private val _hourlyWeather = MutableLiveData<List<JSONObject>>()
     val hourlyWeather: LiveData<List<JSONObject>> get() = _hourlyWeather
 
+    private val _currentWeather = MutableLiveData<JSONObject>()
+    val currentWeather: LiveData<JSONObject> get() = _currentWeather
 
     private val _latitude = MutableLiveData<Double>()
     val latitude: LiveData<Double> get() = _latitude
@@ -65,6 +67,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             onSuccess = { response ->
 
                 _weatherData.value = response
+                parseDailyWeather(response)
+                parseHourlyWeather(response)
             },
             onError = { errorMessage ->
 
@@ -81,7 +85,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 _longitude.value = lon.toDouble()
                 _formattedAddress.value = "$city, $state"
 
-//                loadWeatherData(lat.toDouble(), lon.toDouble())
+                loadWeatherData(lat.toDouble(), lon.toDouble())
             },
             onError = { errorMessage ->
 
@@ -119,5 +123,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         _hourlyWeather.value = hourlyData
+        if (hourlyData.isNotEmpty()) {
+            _currentWeather.value = hourlyData[0]
+        }
     }
 }
