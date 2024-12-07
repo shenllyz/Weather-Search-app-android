@@ -1,7 +1,6 @@
-package com.example.weatherapp.view
+package com.example.weatherapp.view.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -11,13 +10,18 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.utils.WeatherUtils
+import com.example.weatherapp.view.adapters.ForecastAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import org.json.JSONObject
 import kotlin.math.roundToInt
+
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
+    private lateinit var forecastAdapter: ForecastAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -30,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val currentTemperatureTextView: TextView = findViewById(R.id.current_temperature)
         val cityNameTextView: TextView = findViewById(R.id.city_name)
         val weatherIconImageView: ImageView = findViewById(R.id.weather_icon)
@@ -38,6 +43,12 @@ class MainActivity : AppCompatActivity() {
         val visibilityTextView: TextView = findViewById(R.id.visibility)
         val pressureTextView: TextView = findViewById(R.id.pressure)
         val weatherSummaryTextView: TextView = findViewById(R.id.weather_summary)
+        val forecastRecyclerView: RecyclerView = findViewById(R.id.forecast_recyclerview)
+
+        forecastRecyclerView.layoutManager = LinearLayoutManager(this)
+        forecastAdapter = ForecastAdapter(emptyList())
+        forecastRecyclerView.adapter = forecastAdapter
+
         weatherViewModel.formattedAddress.observe(this, Observer { address ->
             cityNameTextView.text = address
         })
@@ -45,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         weatherViewModel.currentWeather.observe(this, Observer { currentWeather ->
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
                 windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
+        })
+
+        weatherViewModel.dailyWeather.observe(this, Observer { dailyWeather ->
+            forecastAdapter = ForecastAdapter(dailyWeather)
+            forecastRecyclerView.adapter = forecastAdapter
         })
 
         weatherViewModel.loadIpInfo()

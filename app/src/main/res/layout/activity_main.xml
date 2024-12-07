@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@android:color/black"
     android:padding="12dp"
-    tools:context=".view.MainActivity">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:background="@color/home_bg">
+        android:background="@color/home_bg"
+        android:orientation="vertical">
 
-        <!-- Search Icon and Dot Indicators -->
-
+        <!-- 顶部标题、搜索等布局保持不变 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:orientation="horizontal"
             android:background="@color/black">
+
             <TextView
                 android:id="@+id/app_title"
                 android:layout_width="wrap_content"
@@ -30,8 +29,8 @@
                 android:layout_gravity="center_vertical"
                 android:text="WeatherApp"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                 />
+                android:textSize="20sp" />
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchable"
                 android:layout_width="200dp"
@@ -45,7 +44,6 @@
                 android:layout_gravity="center|right"
                 android:layout_marginStart="36dp"
                 android:background="@drawable/map_search" />
-
         </LinearLayout>
 
         <RelativeLayout
@@ -61,7 +59,6 @@
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
                 android:paddingTop="8dp">
-
 
                 <View
                     android:layout_width="8dp"
@@ -83,13 +80,10 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Card 1: Current Weather Summary -->
-
-        <!-- Card 2: Current Metrics -->
-
+        <!-- Card 1: 当前天气信息 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="159dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@color/card_bg"
             android:clickable="true"
@@ -109,8 +103,7 @@
                     android:layout_height="70dp"
                     android:layout_gravity="start"
                     android:layout_marginStart="80dp"
-                    android:layout_marginEnd="10dp"
-                    />
+                    android:layout_marginEnd="10dp" />
 
                 <LinearLayout
                     android:layout_width="186dp"
@@ -121,7 +114,6 @@
                         android:id="@+id/current_temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
                         android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -131,13 +123,10 @@
                         android:id="@+id/weather_summary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
                         android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="20dp" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <TextView
@@ -153,9 +142,10 @@
 
         </LinearLayout>
 
+        <!-- Card 2: 天气指标 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="126dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@color/card_bg"
             android:orientation="horizontal"
@@ -163,7 +153,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="105dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -184,18 +174,15 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_weight="1"
                     android:text="Humidity"
-                    android:textColor="@android:color/white"
-                    tools:text="Humidity" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="105dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -216,18 +203,15 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Wind Speed"
-                    android:textColor="@android:color/white"
-                    tools:text="Wind Speed" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="105dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -248,18 +232,15 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Visibility"
-                    android:textColor="@android:color/white"
-                    tools:text="Visibility" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="5dp"
-                android:layout_height="105dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -280,78 +261,28 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Pressure"
-                    android:textColor="@android:color/white"
-                    tools:text="Pressure" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
-
         </LinearLayout>
 
-        <!-- Card 3: Weekly Forecast -->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="362dp"
+            android:layout_height="wrap_content"
             android:background="@color/card_bg"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ScrollView
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/forecast_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!-- Example rows for each day in the weekly forecast -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:background="@color/card_bg"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:id="@+id/date_1"
-                            android:layout_width="0dp"
-                            android:layout_height="32dp"
-                            android:layout_weight="2"
-                            android:gravity="center|start"
-                            android:text="2024-11-11"
-                            android:textColor="@android:color/white" />
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/mostly_clear_day" />
-
-                        <TextView
-                            android:id="@+id/min_temp_1"
-                            android:layout_width="0dp"
-                            android:layout_height="32dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="47°"
-                            android:textColor="@android:color/white" />
-
-                        <TextView
-                            android:id="@+id/max_temp_1"
-                            android:layout_width="0dp"
-                            android:layout_height="32dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="71°"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
-
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
         </LinearLayout>
+
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
