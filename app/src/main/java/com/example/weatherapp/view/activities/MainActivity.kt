@@ -9,12 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.adapters.ForecastAdapter
+import com.example.weatherapp.view.fragments.SearchFragment
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -64,6 +66,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         weatherViewModel.loadIpInfo()
+
+        // Load the SearchFragment
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, SearchFragment())
+        }
     }
 
     private fun updateWeatherAttributes(

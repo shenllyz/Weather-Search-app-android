@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.android.volley:volley:1.2.1")
     implementation(libs.androidx.core.ktx)

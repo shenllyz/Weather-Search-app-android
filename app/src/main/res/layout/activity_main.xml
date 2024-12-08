@@ -14,38 +14,11 @@
         android:layout_height="wrap_content"
         android:background="@color/home_bg"
         android:orientation="vertical">
-
-        <!-- 顶部标题、搜索等布局保持不变 -->
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:orientation="horizontal"
-            android:background="@color/black">
-
-            <TextView
-                android:id="@+id/app_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="WeatherApp"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchable"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                app:searchIcon="@null" />
-
-            <ImageView
-                android:id="@+id/searchicon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:layout_marginStart="36dp"
-                android:background="@drawable/map_search" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="47dp"
@@ -80,7 +53,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Card 1: 当前天气信息 -->
+        <!-- Card 1: Current Weather Information -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,7 +115,7 @@
 
         </LinearLayout>
 
-        <!-- Card 2: 天气指标 -->
+        <!-- Card 2: Weather Indicators -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -268,13 +241,11 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/home_bg"
             android:orientation="vertical">
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/forecast_recyclerview"

@@ -48,8 +48,8 @@ class ForecastAdapter(private val dailyWeatherList: List<JSONObject>) : Recycler
 
         // Bind the data to the views
         holder.tvDate.text = formattedDate
-        holder.tvMinTemp.text = "$temperatureMin°"
-        holder.tvMaxTemp.text = "$temperatureMax°"
+        holder.tvMinTemp.text = "$temperatureMin"
+        holder.tvMaxTemp.text = "$temperatureMax"
         holder.ivWeatherIcon.setImageResource(weatherIconResId)
     }
 
