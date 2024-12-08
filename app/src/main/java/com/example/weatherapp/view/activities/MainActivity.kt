@@ -1,8 +1,11 @@
+// MainActivity.kt
 package com.example.weatherapp.view.activities
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         val pressureTextView: TextView = findViewById(R.id.pressure)
         val weatherSummaryTextView: TextView = findViewById(R.id.weather_summary)
         val forecastRecyclerView: RecyclerView = findViewById(R.id.forecast_recyclerview)
+        val currentWeatherCard: LinearLayout = findViewById(R.id.current_weather_card)
 
         forecastRecyclerView.layoutManager = LinearLayoutManager(this)
         forecastAdapter = ForecastAdapter(emptyList())
@@ -70,6 +74,11 @@ class MainActivity : AppCompatActivity() {
         // Load the SearchFragment
         supportFragmentManager.commit {
             replace(R.id.fragment_container, SearchFragment())
+        }
+
+        // Set click listener for current_weather_card
+        currentWeatherCard.setOnClickListener {
+            Toast.makeText(this, "Current weather card clicked", Toast.LENGTH_SHORT).show()
         }
     }
 
