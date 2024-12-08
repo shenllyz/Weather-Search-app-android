@@ -272,9 +272,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/card_bg"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:background="@color/home_bg"
+            android:orientation="vertical">
 
 
             <androidx.recyclerview.widget.RecyclerView
