@@ -1,6 +1,7 @@
 // MainActivity.kt
 package com.example.weatherapp.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -78,7 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         // Set click listener for current_weather_card
         currentWeatherCard.setOnClickListener {
-            Toast.makeText(this, "Current weather card clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DetailActivity::class.java)
+            startActivity(intent)
         }
     }
 
