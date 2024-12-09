@@ -1,6 +1,8 @@
 
 package com.example.weatherapp.view.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,5 +22,14 @@ class DetailActivity : AppCompatActivity() {
         val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
         val cityName = intent.getStringExtra("city_name")
         toolbarTitle.text = cityName
+
+        val xButton: ImageView = findViewById(R.id.xButton)
+        xButton.setOnClickListener {
+            val temperature = intent.getStringExtra("temperature")
+            val tweetText = "Check Out $cityName’s Weather! It is $temperature°F! #CSCI571WeatherSearch"
+            val tweetUrl = "https://twitter.com/intent/tweet?text=${Uri.encode(tweetText)}"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl))
+            startActivity(intent)
+        }
     }
 }

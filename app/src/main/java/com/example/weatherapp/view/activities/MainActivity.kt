@@ -81,7 +81,9 @@ class MainActivity : AppCompatActivity() {
         currentWeatherCard.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
+            val temperature = currentTemperatureTextView.text.toString().replace("°F", "")
             intent.putExtra("city_name", cityName)
+            intent.putExtra("temperature", temperature)
             startActivity(intent)
         }
     }
