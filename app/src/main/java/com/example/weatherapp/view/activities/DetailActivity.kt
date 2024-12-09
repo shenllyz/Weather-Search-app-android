@@ -3,6 +3,7 @@ package com.example.weatherapp.view.activities
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapp.R
 
@@ -15,5 +16,9 @@ class DetailActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
+
+        val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
+        val cityName = intent.getStringExtra("city_name")
+        toolbarTitle.text = cityName
     }
 }

@@ -45,7 +45,7 @@
                 android:text="Commerce, California"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:layout_marginRight="40dp"/>
+                android:layout_marginRight="20dp"/>
             <!-- X Button -->
             <ImageView
                 android:id="@+id/xButton"

@@ -80,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         // Set click listener for current_weather_card
         currentWeatherCard.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
+            val cityName = cityNameTextView.text.toString()
+            intent.putExtra("city_name", cityName)
             startActivity(intent)
         }
     }
