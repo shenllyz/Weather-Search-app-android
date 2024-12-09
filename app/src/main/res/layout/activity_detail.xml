@@ -68,7 +68,7 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/darker_gray"
-            app:tabIconTint="@android:color/white">
+            app:tabIconTint="@drawable/tab_select">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_today"

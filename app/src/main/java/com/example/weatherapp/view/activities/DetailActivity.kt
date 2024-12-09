@@ -55,6 +55,12 @@ class DetailActivity : AppCompatActivity() {
                 2 -> "WEATHER DATA"
                 else -> null
             }
+            tab.icon = when (position) {
+                0 -> getDrawable(R.drawable.today)
+                1 -> getDrawable(R.drawable.weekly_tab)
+                2 -> getDrawable(R.drawable.weather_data_tab)
+                else -> null
+            }
         }.attach()
     }
 
