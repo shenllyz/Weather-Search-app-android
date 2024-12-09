@@ -77,13 +77,25 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.fragment_container, SearchFragment())
         }
 
-        // Set click listener for current_weather_card
+
         currentWeatherCard.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
-            val temperature = currentTemperatureTextView.text.toString().replace("°F", "")
+            val temperature = currentTemperatureTextView.text.toString()
+            val weatherDesc = weatherSummaryTextView.text.toString()
+            val currentWeather = weatherViewModel.currentWeather.value
+            val values = currentWeather?.getJSONObject("values")
             intent.putExtra("city_name", cityName)
             intent.putExtra("temperature", temperature)
+            intent.putExtra("humidity", values?.getInt("humidity").toString())
+            intent.putExtra("wind_speed", values?.getDouble("windSpeed").toString())
+            intent.putExtra("visibility", values?.getDouble("visibility").toString())
+            intent.putExtra("pressure", values?.getDouble("pressureSeaLevel").toString())
+            intent.putExtra("precipitation", values?.getInt("precipitationProbability").toString())
+            intent.putExtra("cloud_cover", values?.getInt("cloudCover").toString())
+            intent.putExtra("ozone", values?.getInt("uvIndex").toString())
+            intent.putExtra("weather_desc", weatherDesc)
+            intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             startActivity(intent)
         }
     }
@@ -109,9 +121,9 @@ class MainActivity : AppCompatActivity() {
         // Update the views with the current weather data
         currentTemperatureTextView.text = "${temperature}°F"
         humidityTextView.text = "$humidity%"
-        windSpeedTextView.text = "${windSpeed} mph"
-        visibilityTextView.text = "${visibility} mi"
-        pressureTextView.text = "${pressure} inHg"
+        windSpeedTextView.text = "${windSpeed}mph"
+        visibilityTextView.text = "${visibility}mi"
+        pressureTextView.text = "${pressure}inHg"
         weatherSummaryTextView.text = WeatherUtils.getWeatherDescription(weatherCode)
 
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)

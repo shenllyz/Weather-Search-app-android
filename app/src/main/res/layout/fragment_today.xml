@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="8dp">
+    android:background="@color/home_bg">
+
 
 
     <GridLayout
@@ -17,8 +17,6 @@
         android:useDefaultMargins="true">
 
 
-
-        <!-- Item 1: Wind Speed -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,8 +27,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/wind_speed"
                 android:contentDescription="Wind Speed"/>
 
@@ -38,14 +36,18 @@
                 android:id="@+id/today_wind_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2.66mph\nWind Speed"
+                android:text="2.66mph"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Wind Speed"/>
         </LinearLayout>
 
-        <!-- Item 2: Pressure -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -56,8 +58,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/pressure"
                 android:contentDescription="Pressure"/>
 
@@ -65,14 +67,18 @@
                 android:id="@+id/today_pressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="29.96inHg\nPressure"
+                android:text="29.96inHg"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Pressure"/>
         </LinearLayout>
 
-        <!-- Item 3: Precipitation -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,8 +89,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/rain_card"
                 android:contentDescription="Precipitation"/>
 
@@ -92,14 +98,18 @@
                 android:id="@+id/today_precipitation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%\nPrecipitation"
+                android:text="0%"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Precipitation"/>
         </LinearLayout>
 
-        <!-- Item 4: Temperature -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -110,8 +120,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/ic_thermometer"
                 android:contentDescription="Temperature"/>
 
@@ -119,17 +129,21 @@
                 android:id="@+id/today_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="62°F\nTemperature"
+                android:text="62°F"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Temperature"/>
         </LinearLayout>
 
-        <!-- Item 5: Condition (Clear) -->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="124dp"
+            android:layout_height="143dp"
             android:layout_columnWeight="1"
             android:background="@drawable/rounded_border"
             android:gravity="center"
@@ -138,8 +152,8 @@
 
             <ImageView
                 android:id="@+id/today_weather_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:contentDescription="Clear Condition"
@@ -149,14 +163,15 @@
                 android:id="@+id/today_weather_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Clear"
                 android:textAlignment="center"
                 android:textColor="@android:color/white" />
+
+
         </LinearLayout>
 
-        <!-- Item 6: Humidity -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -167,8 +182,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/humidity"
                 android:contentDescription="Humidity"/>
 
@@ -176,14 +191,18 @@
                 android:id="@+id/today_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="34%\nHumidity"
+                android:text="34%"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Humidity"/>
         </LinearLayout>
 
-        <!-- Item 7: Visibility -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -194,8 +213,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/visibility"
                 android:contentDescription="Visibility"/>
 
@@ -203,14 +222,18 @@
                 android:id="@+id/today_visibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9.94mi\nVisibility"
+                android:text="9.94mi"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Visibility"/>
         </LinearLayout>
 
-        <!-- Item 8: Cloud Cover -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -221,8 +244,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/cloud_cover"
                 android:contentDescription="Cloud Cover"/>
 
@@ -230,14 +253,18 @@
                 android:id="@+id/today_cloud_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%\nCloud Cover"
+                android:text="0%"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Cloud Cover"/>
         </LinearLayout>
 
-        <!-- Item 9: Ozone -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -248,8 +275,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/uv"
                 android:contentDescription="Ozone"/>
 
@@ -257,11 +284,16 @@
                 android:id="@+id/today_ozone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2\nOzone"
+                android:text="2"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Ozone"/>
         </LinearLayout>
 
     </GridLayout>

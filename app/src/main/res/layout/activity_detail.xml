@@ -64,7 +64,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="@color/tab_bg"
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/darker_gray"
@@ -98,6 +98,7 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/tab_bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
