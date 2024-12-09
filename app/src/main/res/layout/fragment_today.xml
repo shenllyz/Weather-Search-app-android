@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:padding="8dp">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
+        android:columnCount="3"
+        android:rowCount="3"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true">
+
+
+
+        <!-- Item 1: Wind Speed -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/wind_speed"
+                android:contentDescription="Wind Speed"/>
+
+            <TextView
+                android:id="@+id/today_wind_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.66mph\nWind Speed"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 2: Pressure -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/pressure"
+                android:contentDescription="Pressure"/>
+
+            <TextView
+                android:id="@+id/today_pressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="29.96inHg\nPressure"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 3: Precipitation -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/rain_card"
+                android:contentDescription="Precipitation"/>
+
+            <TextView
+                android:id="@+id/today_precipitation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%\nPrecipitation"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 4: Temperature -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_thermometer"
+                android:contentDescription="Temperature"/>
+
+            <TextView
+                android:id="@+id/today_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="62°F\nTemperature"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 5: Condition (Clear) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="124dp"
+            android:layout_columnWeight="1"
+            android:background="@drawable/rounded_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/today_weather_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:contentDescription="Clear Condition"
+                android:src="@drawable/clear_day" />
+
+            <TextView
+                android:id="@+id/today_weather_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Clear"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Item 6: Humidity -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/humidity"
+                android:contentDescription="Humidity"/>
+
+            <TextView
+                android:id="@+id/today_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="34%\nHumidity"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 7: Visibility -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/visibility"
+                android:contentDescription="Visibility"/>
+
+            <TextView
+                android:id="@+id/today_visibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.94mi\nVisibility"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 8: Cloud Cover -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/cloud_cover"
+                android:contentDescription="Cloud Cover"/>
+
+            <TextView
+                android:id="@+id/today_cloud_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%\nCloud Cover"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Item 9: Ozone -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_border"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/uv"
+                android:contentDescription="Ozone"/>
+
+            <TextView
+                android:id="@+id/today_ozone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2\nOzone"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+    </GridLayout>
+
+</ScrollView>
