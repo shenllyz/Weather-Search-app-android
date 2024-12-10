@@ -9,6 +9,9 @@ import com.example.weatherapp.R
 import com.highsoft.highcharts.core.*
 import com.highsoft.highcharts.common.hichartsclasses.*
 import com.highsoft.highcharts.common.HIColor
+import com.highsoft.highcharts.common.HIGradient
+import com.highsoft.highcharts.common.HIStop
+import java.util.LinkedList
 
 class WeeklyFragment : Fragment() {
 
@@ -71,9 +74,18 @@ class WeeklyFragment : Fragment() {
             name = "Temperatures"
             val seriesData = data.map { arrayOf<Any>(it.first, it.second, it.third) }
             this.data = ArrayList(seriesData)
-            lineColor = HIColor.initWithHexValue("@color/temperature_line_color")
-            color = fillColor
+
+
+            val gradient = HIGradient(0.0f, 0.0f, 0.0f, 1.0f)
+            val stopsList = LinkedList<HIStop>()
+            stopsList.add(HIStop(0f, HIColor.initWithHexValue("e1a84c")))
+            stopsList.add(HIStop(1f, HIColor.initWithHexValue("c4e5fb")))
+
+            val gradientColor = HIColor.initWithLinearGradient(gradient, stopsList)
+            color = gradientColor
+            lineColor = HIColor.initWithHexValue("27A3FC")
         }
+
 
         options.series = arrayListOf(series)
         chartView.options = options
