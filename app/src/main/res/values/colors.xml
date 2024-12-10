@@ -9,4 +9,7 @@
     <color name="home_bg">#2e2e2e</color>
     <color name="temp_range_line_color">#EEB082</color>
     <color name="today_card_bg">#1e1e1e</color>
+    <color name="gauge_color1">#FF815D</color>
+    <color name="gauge_color2">#2CAFFE</color>
+    <color name="gauge_color3">#82EE6A</color>
 </resources>

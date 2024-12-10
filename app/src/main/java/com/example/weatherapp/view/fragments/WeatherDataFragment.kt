@@ -35,7 +35,7 @@ class WeatherDataFragment : Fragment() {
         options.chart = chart
 
         val title = HITitle().apply {
-            text = "Activity"
+            text = "Stat Summary"
             style = HICSSObject().apply {
                 fontSize = "24px"
             }
@@ -68,19 +68,19 @@ class WeatherDataFragment : Fragment() {
                 HIBackground().apply {
                     outerRadius = "112%"
                     innerRadius = "88%"
-                    backgroundColor = HIColor.initWithRGBA(106, 165, 231, 0.35)
+                    backgroundColor = HIColor.initWithRGBA(130, 238, 106, 0.35)
                     borderWidth = 0
                 },
                 HIBackground().apply {
                     outerRadius = "87%"
                     innerRadius = "63%"
-                    backgroundColor = HIColor.initWithRGBA(51, 52, 56, 0.35)
+                    backgroundColor = HIColor.initWithRGBA(44, 175, 254, 0.35)
                     borderWidth = 0
                 },
                 HIBackground().apply {
                     outerRadius = "62%"
                     innerRadius = "38%"
-                    backgroundColor = HIColor.initWithRGBA(130, 238, 106, 0.35)
+                    backgroundColor = HIColor.initWithRGBA(255, 129, 93, 0.35)
                     borderWidth = 0
                 }
             )
@@ -110,7 +110,7 @@ class WeatherDataFragment : Fragment() {
         val solidgauge1 = HISolidgauge().apply {
             name = "Move"
             data = arrayListOf(HIData().apply {
-                color = HIColor.initWithRGB(106, 165, 231)
+                color = HIColor.initWithRGB(130, 238, 106)
                 radius = "112%"
                 innerRadius = "88%"
                 y = 80
@@ -120,7 +120,7 @@ class WeatherDataFragment : Fragment() {
         val solidgauge2 = HISolidgauge().apply {
             name = "Exercise"
             data = arrayListOf(HIData().apply {
-                color = HIColor.initWithRGB(51, 52, 56)
+                color = HIColor.initWithRGB(44, 175, 254)
                 radius = "87%"
                 innerRadius = "63%"
                 y = 65
@@ -130,7 +130,7 @@ class WeatherDataFragment : Fragment() {
         val solidgauge3 = HISolidgauge().apply {
             name = "Stand"
             data = arrayListOf(HIData().apply {
-                color = HIColor.initWithRGB(130, 238, 106)
+                color = HIColor.initWithRGB(255, 129, 93)
                 radius = "62%"
                 innerRadius = "38%"
                 y = 50
