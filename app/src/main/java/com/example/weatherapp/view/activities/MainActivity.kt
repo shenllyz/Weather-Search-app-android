@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             val temperature = currentTemperatureTextView.text.toString()
             val weatherDesc = weatherSummaryTextView.text.toString()
             val currentWeather = weatherViewModel.currentWeather.value
+            val weeklyWeather = weatherViewModel.dailyWeather.value
             val values = currentWeather?.getJSONObject("values")
             intent.putExtra("city_name", cityName)
             intent.putExtra("temperature", temperature)
@@ -96,6 +97,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("ozone", values?.getInt("uvIndex").toString())
             intent.putExtra("weather_desc", weatherDesc)
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
+
             startActivity(intent)
         }
     }

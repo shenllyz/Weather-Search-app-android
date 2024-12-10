@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.highcharts:highcharts-android:11.4.8.1")
     implementation ("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.android.volley:volley:1.2.1")

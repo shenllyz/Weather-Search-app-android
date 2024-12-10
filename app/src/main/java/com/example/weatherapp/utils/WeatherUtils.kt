@@ -1,6 +1,9 @@
 package com.example.weatherapp.utils
-
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import com.example.weatherapp.R
+import org.json.JSONObject
 
 object WeatherUtils {
     private val weatherDescriptions = mapOf(
@@ -63,5 +66,22 @@ object WeatherUtils {
 
     fun getWeatherIcon(weatherCode: Int): Int {
         return weatherIcons[weatherCode] as Int
+    }
+
+    fun getTemperatureChartOptions(dailyWeatherData: List<JSONObject>): List<Triple<Long, Double, Double>> {
+        val temperatureData = mutableListOf<Triple<Long, Double, Double>>()
+        dailyWeatherData.forEach { entry ->
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(entry.getString("date"))?.time ?: 0L
+            val tempMin = entry.getDouble("temperatureMin")
+            val tempMax = entry.getDouble("temperatureMax")
+            temperatureData.add(Triple(date, tempMin, tempMax))
+        }
+        return temperatureData
+    }
+
+    fun formatDateRange(data: List<Triple<Long, Double, Double>>): String {
+        val firstDate = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date(data[0].first))
+        val lastDate = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date(data[data.size - 1].first))
+        return "$firstDate - $lastDate"
     }
 }
