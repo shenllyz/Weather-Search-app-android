@@ -50,14 +50,20 @@ class WeatherDataFragment : Fragment() {
         options.title = title
 
         val tooltip = HITooltip().apply {
+            useHTML = true
             borderWidth = 0
             backgroundColor = HIColor.initWithName("none")
             shadow = HIShadowOptionsObject().apply { enabled = true }
             style = HICSSObject().apply {
                 fontSize = "16px"
+                textAlign = "center"
             }
-            pointFormat = "{series.name}<br>" +
-                    "<span style=\"display:block; text-align:center; font-size:2em; color: {point.color}; font-weight: bold;\">{point.y}%</span>"
+            pointFormat = """
+        <div style="text-align:center;">
+          <div>{series.name}</div>
+          <div style="font-size:2em; color:{point.color}; font-weight:bold;">{point.y}%</div>
+        </div>
+    """.trimIndent()
 
             positioner = HIFunction(
                 "function (labelWidth) {" +
