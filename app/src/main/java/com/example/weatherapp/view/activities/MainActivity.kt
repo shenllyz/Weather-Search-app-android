@@ -3,6 +3,7 @@ package com.example.weatherapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val weatherSummaryTextView: TextView = findViewById(R.id.weather_summary)
         val forecastRecyclerView: RecyclerView = findViewById(R.id.forecast_recyclerview)
         val currentWeatherCard: LinearLayout = findViewById(R.id.current_weather_card)
-
+        var temperatureChartOptions =  mutableListOf<Triple<Long, Int, Int>>()
         forecastRecyclerView.layoutManager = LinearLayoutManager(this)
         forecastAdapter = ForecastAdapter(emptyList())
         forecastRecyclerView.adapter = forecastAdapter
@@ -67,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
         weatherViewModel.dailyWeather.observe(this, Observer { dailyWeather ->
             forecastAdapter = ForecastAdapter(dailyWeather)
+            temperatureChartOptions = forecastAdapter.getTemperatureChartOptions().toMutableList()
+            Log.d("MainActivity", "Temperature Chart Options: $temperatureChartOptions")
             forecastRecyclerView.adapter = forecastAdapter
         })
 
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("ozone", values?.getInt("uvIndex").toString())
             intent.putExtra("weather_desc", weatherDesc)
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
-
+            intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
         }
     }

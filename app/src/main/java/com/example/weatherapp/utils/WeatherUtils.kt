@@ -68,18 +68,18 @@ object WeatherUtils {
         return weatherIcons[weatherCode] as Int
     }
 
-    fun getTemperatureChartOptions(dailyWeatherData: List<JSONObject>): List<Triple<Long, Double, Double>> {
-        val temperatureData = mutableListOf<Triple<Long, Double, Double>>()
+    fun getTemperatureChartOptions(dailyWeatherData: List<JSONObject>): List<Triple<Long, Int, Int>> {
+        val temperatureData = mutableListOf<Triple<Long, Int, Int>>()
         dailyWeatherData.forEach { entry ->
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(entry.getString("date"))?.time ?: 0L
-            val tempMin = entry.getDouble("temperatureMin")
-            val tempMax = entry.getDouble("temperatureMax")
+            val tempMin = entry.getInt("temperatureMin")
+            val tempMax = entry.getInt("temperatureMax")
             temperatureData.add(Triple(date, tempMin, tempMax))
         }
         return temperatureData
     }
 
-    fun formatDateRange(data: List<Triple<Long, Double, Double>>): String {
+    fun formatDateRange(data: List<Triple<Long, Int, Int>>): String {
         val firstDate = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date(data[0].first))
         val lastDate = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date(data[data.size - 1].first))
         return "$firstDate - $lastDate"

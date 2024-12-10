@@ -11,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.R
 import com.example.weatherapp.view.fragments.TodayFragment
+import com.example.weatherapp.view.fragments.WeeklyFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -81,6 +82,11 @@ class DetailActivity : AppCompatActivity() {
                         putString("cloud_cover", intent.getStringExtra("cloud_cover"))
                         putString("ozone", intent.getStringExtra("ozone"))
                         putInt("weather_icon", intent.getIntExtra("weather_icon", 0))
+                    }
+                }
+                1 -> WeeklyFragment().apply {
+                    arguments = Bundle().apply {
+                        putSerializable("temperature_chart_options", intent.getSerializableExtra("temperature_chart_options"))
                     }
                 }
                 else -> Fragment() // Replace with other fragments as needed

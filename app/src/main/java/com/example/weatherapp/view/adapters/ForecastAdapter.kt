@@ -56,4 +56,29 @@ class ForecastAdapter(private val dailyWeatherList: List<JSONObject>) : Recycler
     override fun getItemCount(): Int {
         return dailyWeatherList.size
     }
+    fun getTemperatureChartOptions(): List<Triple<Long, Int, Int>> {
+        val temperatureData = mutableListOf<Triple<Long, Int, Int>>()
+        dailyWeatherList.forEach { dailyWeather ->
+            val startTime = dailyWeather.getString("startTime")
+            val values = dailyWeather.getJSONObject("values")
+
+            // Input and output format
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+            val date = inputFormat.parse(startTime)
+            val formattedDate = outputFormat.format(date)
+
+
+            val formattedDateInMillis = outputFormat.parse(formattedDate)?.time ?: 0L
+
+            val temperatureMin = values.getDouble("temperatureMin").roundToInt()
+            val temperatureMax = values.getDouble("temperatureMax").roundToInt()
+
+            // Add to the list
+            temperatureData.add(Triple(formattedDateInMillis, temperatureMin, temperatureMax))
+        }
+        return temperatureData
+    }
+
 }
