@@ -19,12 +19,12 @@ class TodayFragment : Fragment() {
 
         val windSpeed = arguments?.getString("wind_speed")
         val pressure = arguments?.getString("pressure")
-        val precipitation = arguments?.getString("precipitation")
+        val precipitation = arguments?.getInt("precipitation")?:0
         val temperature = arguments?.getString("temperature")
         val weatherDesc = arguments?.getString("weather_desc")
-        val humidity = arguments?.getString("humidity")
+        val humidity = arguments?.getInt("humidity")?:0
         val visibility = arguments?.getString("visibility")
-        val cloudCover = arguments?.getString("cloud_cover")
+        val cloudCover = arguments?.getInt("cloud_cover")?:0
         val ozone = arguments?.getString("ozone")
         val weatherIcon = arguments?.getInt("weather_icon")
 

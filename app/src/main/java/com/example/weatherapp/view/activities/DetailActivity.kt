@@ -77,10 +77,10 @@ class DetailActivity : AppCompatActivity() {
                         putString("temperature", intent.getStringExtra("temperature"))
                         putString("weather_desc", intent.getStringExtra("weather_desc"))
                         putString("pressure", intent.getStringExtra("pressure"))
-                        putString("precipitation", intent.getStringExtra("precipitation"))
-                        putString("humidity", intent.getStringExtra("humidity"))
+                        putInt("precipitation", intent.getIntExtra("precipitation", 0))
+                        putInt("humidity", intent.getIntExtra("humidity", 0))
                         putString("visibility", intent.getStringExtra("visibility"))
-                        putString("cloud_cover", intent.getStringExtra("cloud_cover"))
+                        putInt("cloud_cover", intent.getIntExtra("cloud_cover", 0))
                         putString("ozone", intent.getStringExtra("ozone"))
                         putInt("weather_icon", intent.getIntExtra("weather_icon", 0))
                     }
@@ -92,10 +92,12 @@ class DetailActivity : AppCompatActivity() {
                 }
                 2 -> WeatherDataFragment().apply {
                     arguments = Bundle().apply {
-                        putString("city_name", intent.getStringExtra("city_name"))
+                        putInt("precipitation", intent.getIntExtra("precipitation", 0))
+                        putInt("humidity", intent.getIntExtra("humidity", 0))
+                        putInt("cloud_cover", intent.getIntExtra("cloud_cover", 0))
                     }
                 }
-                else -> Fragment() // Replace with other fragments as needed
+                else -> Fragment()
             }
         }
     }

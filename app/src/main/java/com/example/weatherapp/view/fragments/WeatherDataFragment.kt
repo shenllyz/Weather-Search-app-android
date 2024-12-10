@@ -23,7 +23,14 @@ class WeatherDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val chartView: HIChartView = view.findViewById(R.id.hc_weatherdata)
+        val precipitation = arguments?.getInt("precipitation") ?: 0
+        val humidity = arguments?.getInt("humidity") ?: 0
+        val cloudCover = arguments?.getInt("cloud_cover") ?: 0
 
+        renderChart(chartView, precipitation, humidity, cloudCover)
+    }
+
+    private fun renderChart(chartView: HIChartView, precipitation: Int, humidity: Int, cloudCover: Int) {
         val options = HIOptions()
 
         val chart = HIChart().apply {
@@ -45,11 +52,13 @@ class WeatherDataFragment : Fragment() {
         val tooltip = HITooltip().apply {
             borderWidth = 0
             backgroundColor = HIColor.initWithName("none")
-            shadow = HIShadowOptionsObject().apply { enabled = false }
+            shadow = HIShadowOptionsObject().apply { enabled = true }
             style = HICSSObject().apply {
                 fontSize = "16px"
             }
-            pointFormat = "{series.name}<br><span style=\"font-size:2em; color: {point.color}; font-weight: bold\">{point.y}%</span>"
+            pointFormat = "{series.name}<br>" +
+                    "<span style=\"display:block; text-align:center; font-size:2em; color: {point.color}; font-weight: bold;\">{point.y}%</span>"
+
             positioner = HIFunction(
                 "function (labelWidth) {" +
                         "   return {" +
@@ -108,32 +117,32 @@ class WeatherDataFragment : Fragment() {
         options.plotOptions = plotOptions
 
         val solidgauge1 = HISolidgauge().apply {
-            name = "Move"
+            name = "cloudCover"
             data = arrayListOf(HIData().apply {
                 color = HIColor.initWithRGB(130, 238, 106)
                 radius = "112%"
                 innerRadius = "88%"
-                y = 80
+                y = cloudCover
             })
         }
 
         val solidgauge2 = HISolidgauge().apply {
-            name = "Exercise"
+            name = "precipitation"
             data = arrayListOf(HIData().apply {
                 color = HIColor.initWithRGB(44, 175, 254)
                 radius = "87%"
                 innerRadius = "63%"
-                y = 65
+                y = precipitation
             })
         }
 
         val solidgauge3 = HISolidgauge().apply {
-            name = "Stand"
+            name = "humidity"
             data = arrayListOf(HIData().apply {
                 color = HIColor.initWithRGB(255, 129, 93)
                 radius = "62%"
                 innerRadius = "38%"
-                y = 50
+                y = humidity
             })
         }
 
