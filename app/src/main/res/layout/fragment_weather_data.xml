@@ -18,20 +18,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/weekly_text"
+                android:id="@+id/weatherdata_text"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="121dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Temperature Range"
+                android:text="Weather Data"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="24sp" />
         </LinearLayout>
         <com.highsoft.highcharts.core.HIChartView
-            android:id="@+id/hc_temperature_range"
+            android:id="@+id/hc_weatherdata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp" />
-
     </LinearLayout>
 </ScrollView>

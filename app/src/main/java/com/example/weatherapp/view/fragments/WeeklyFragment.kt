@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.highsoft.highcharts.core.*
 import com.highsoft.highcharts.common.hichartsclasses.*
-import com.example.weatherapp.viewmodel.WeatherViewModel
-import androidx.fragment.app.activityViewModels
 import com.highsoft.highcharts.common.HIColor
 
 class WeeklyFragment : Fragment() {
 
-    private val weatherViewModel: WeatherViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +39,7 @@ class WeeklyFragment : Fragment() {
         }
         options.chart = chart
 
-        val title = HITitle().apply {
+        var title = HITitle().apply {
             text = "Temperature variation by day"
         }
         options.title = title
@@ -53,6 +50,9 @@ class WeeklyFragment : Fragment() {
         options.xAxis = arrayListOf(xAxis)
 
         val yAxis = HIYAxis()
+        val yAxisTitle = HITitle()
+        yAxisTitle.text = "Temperature(°F)"
+        yAxis.setTitle(yAxisTitle)
         options.yAxis = arrayListOf(yAxis)
 
         val tooltip = HITooltip().apply {
@@ -67,21 +67,12 @@ class WeeklyFragment : Fragment() {
         }
         options.legend = legend
 
-
-
-
         val series = HIArearange().apply {
             name = "Temperatures"
             val seriesData = data.map { arrayOf<Any>(it.first, it.second, it.third) }
             this.data = ArrayList(seriesData)
-
-            // 设置线条颜色（可选）
-            lineColor = HIColor.initWithHexValue("#27a3fc")
-
-            // 设置渐变填充色
+            lineColor = HIColor.initWithHexValue("@color/temperature_line_color")
             color = fillColor
-
-
         }
 
         options.series = arrayListOf(series)
