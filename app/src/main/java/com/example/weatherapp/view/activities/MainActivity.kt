@@ -73,8 +73,12 @@ class MainActivity : AppCompatActivity() {
             forecastRecyclerView.adapter = forecastAdapter
         })
 
-        weatherViewModel.loadIpInfo()
+        weatherViewModel.favorites.observe(this, Observer { favorites ->
+             Log.d("MainActivity", "Favorites locations: $favorites")
+        })
 
+        weatherViewModel.loadIpInfo()
+        weatherViewModel.loadFavorites()
         // Load the SearchFragment
         supportFragmentManager.commit {
             replace(R.id.fragment_container, SearchFragment())

@@ -3,8 +3,10 @@ import android.content.Context
 import com.example.weatherapp.utils.ApiConstants
 import com.android.volley.Request
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.weatherapp.model.FavoriteLocation
 import org.json.JSONObject
 
 
@@ -114,6 +116,75 @@ class WeatherRepository(context: Context) {
         )
 
         requestQueue.add(jsonObjectRequest)
+    }
+
+    fun fetchCityAutocomplete(
+        context: Context,
+        query: String,
+        onSuccess: (List<Pair<String, String>>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "${ApiConstants.BASE_URL}/autocomplete?input=$query"
+
+
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                try {
+                    val results = mutableListOf<Pair<String, String>>()
+                    for (i in 0 until response.length()) {
+                        val jsonObject = response.getJSONObject(i)
+                        val city = jsonObject.getString("city")
+                        val state = jsonObject.getString("state")
+                        results.add(Pair(city, state))
+                    }
+                    onSuccess(results)
+                } catch (e: Exception) {
+                    onError("Failed to parse response: ${e.message}")
+                }
+            },
+            { error ->
+                onError("Request failed: ${error.message}")
+            }
+        )
+        requestQueue.add(jsonArrayRequest)
+    }
+
+    fun fetchFavorites(
+        context: Context,
+        onSuccess: (List<FavoriteLocation>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "${ApiConstants.BASE_URL}/get_all_favorites_locations"
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                try {
+                    val favorites = mutableListOf<FavoriteLocation>()
+                    for (i in 0 until response.length()) {
+                        val jsonObject = response.getJSONObject(i)
+                        val id = jsonObject.getString("_id")
+                        val city = jsonObject.getString("city")
+                        val state = jsonObject.getString("state")
+                        val lat = jsonObject.getDouble("lat")
+                        val lng = jsonObject.getDouble("lng")
+                        favorites.add(FavoriteLocation(city, state, lat, lng,id))
+                    }
+                    onSuccess(favorites)
+                } catch (e: Exception) {
+                    onError("Failed to parse response: ${e.message}")
+                }
+            },
+            { error ->
+                onError("Request failed: ${error.message}")
+            }
+        )
+
+        requestQueue.add(jsonArrayRequest)
     }
 
 }

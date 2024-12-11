@@ -4,16 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-
-
-import org.json.JSONObject
+import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.repository.WeatherRepository
-
+import org.json.JSONObject
 
 class WeatherViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = WeatherRepository(application)
-
 
     private val _dailyWeather = MutableLiveData<List<JSONObject>>()
     val dailyWeather: LiveData<List<JSONObject>> get() = _dailyWeather
@@ -39,39 +36,37 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
+    private val _favorites = MutableLiveData<List<FavoriteLocation>>()
+    val favorites: LiveData<List<FavoriteLocation>> get() = _favorites
+
+    private val _cityAutocomplete = MutableLiveData<List<Pair<String, String>>>()
+    val cityAutocomplete: LiveData<List<Pair<String, String>>> get() = _cityAutocomplete
 
     fun loadGeocodingData(address: String) {
         repository.fetchGeocodingData(
             address = address,
             onSuccess = { lat, lon, formattedAddress ->
-
                 _latitude.value = lat
                 _longitude.value = lon
                 _formattedAddress.value = formattedAddress
-
-
                 loadWeatherData(lat, lon)
             },
             onError = { errorMessage ->
-
                 _error.value = errorMessage
             }
         )
     }
 
-    // Function to load weather data using latitude and longitude
     fun loadWeatherData(lat: Double, lon: Double) {
         repository.fetchWeatherData(
             lat = lat,
             lon = lon,
             onSuccess = { response ->
-
                 _weatherData.value = response
                 parseDailyWeather(response)
                 parseHourlyWeather(response)
             },
             onError = { errorMessage ->
-
                 _error.value = errorMessage
             }
         )
@@ -80,15 +75,37 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     fun loadIpInfo() {
         repository.fetchIpInfo(
             onSuccess = { lat, lon, city, state ->
-
                 _latitude.value = lat.toDouble()
                 _longitude.value = lon.toDouble()
                 _formattedAddress.value = "$city, $state"
-
                 loadWeatherData(lat.toDouble(), lon.toDouble())
             },
             onError = { errorMessage ->
+                _error.value = errorMessage
+            }
+        )
+    }
 
+    fun loadFavorites() {
+        repository.fetchFavorites(
+            context = getApplication(),
+            onSuccess = { favorites ->
+                _favorites.value = favorites
+            },
+            onError = { errorMessage ->
+                _error.value = errorMessage
+            }
+        )
+    }
+
+    fun loadCityAutocomplete(query: String) {
+        repository.fetchCityAutocomplete(
+            context = getApplication(),
+            query = query,
+            onSuccess = { results ->
+                _cityAutocomplete.value = results
+            },
+            onError = { errorMessage ->
                 _error.value = errorMessage
             }
         )
@@ -97,7 +114,6 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     private fun parseDailyWeather(response: JSONObject) {
         val dailyData = mutableListOf<JSONObject>()
         val timelines = response.getJSONObject("data").getJSONArray("timelines")
-
         for (i in 0 until timelines.length()) {
             val timeline = timelines.getJSONObject(i)
             if (timeline.getString("timestep") == "1d") {
@@ -109,10 +125,10 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         }
         _dailyWeather.value = dailyData
     }
+
     private fun parseHourlyWeather(response: JSONObject) {
         val hourlyData = mutableListOf<JSONObject>()
         val timelines = response.getJSONObject("data").getJSONArray("timelines")
-
         for (i in 0 until timelines.length()) {
             val timeline = timelines.getJSONObject(i)
             if (timeline.getString("timestep") == "1h") {
