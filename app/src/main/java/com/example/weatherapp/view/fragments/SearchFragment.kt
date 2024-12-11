@@ -74,10 +74,11 @@ class SearchFragment : Fragment() {
                     weatherViewModel.loadGeocodingData(it)
                     weatherViewModel.latitude.observe(viewLifecycleOwner) { lat ->
                         weatherViewModel.longitude.observe(viewLifecycleOwner) { lon ->
-                            weatherViewModel.loadWeatherData(lat, lon)
                             weatherViewModel.formattedAddress.observe(viewLifecycleOwner) { address ->
                                 val intent = Intent(activity, SearchableActivity::class.java).apply {
                                     putExtra("formatted_address", address)
+                                    putExtra("latitude", lat)
+                                    putExtra("longitude", lon)
                                 }
                                 startActivity(intent)
                             }
