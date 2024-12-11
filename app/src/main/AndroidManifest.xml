@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activities.DetailActivity" />
-
+        <activity android:name=".view.activities.SearchableActivity" />
     </application>
 
 </manifest>

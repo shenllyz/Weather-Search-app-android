@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="icon_bg">#4153b6</color>
     <color name="card_bg">#272727</color>
+    <color name="search_result_bar">#272727</color>
     <color name="indicator_bg">#121212</color>
     <color name="tab_bg">#121212</color>
     <color name="dropdown">#121212</color>
