@@ -6,6 +6,7 @@
     <color name="card_bg">#272727</color>
     <color name="indicator_bg">#121212</color>
     <color name="tab_bg">#121212</color>
+    <color name="dropdown">#121212</color>
     <color name="home_bg">#2e2e2e</color>
     <color name="temp_range_line_color">#27a3fc</color>
     <color name="today_card_bg">#1e1e1e</color>
