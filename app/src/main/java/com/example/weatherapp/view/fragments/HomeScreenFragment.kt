@@ -63,8 +63,8 @@ class HomeScreenFragment : Fragment() {
             Log.d("HomeScreenFragment", "currentWeather observed")
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
                 windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
-            weatherViewModel.setLoading(false) // Set isLoading to false after updating the weather attributes
-            Log.d("HomeScreenFragment", "isLoading to false")
+
+
         })
 
         weatherViewModel.dailyWeather.observe(viewLifecycleOwner, Observer { dailyWeather ->
@@ -77,6 +77,7 @@ class HomeScreenFragment : Fragment() {
         weatherViewModel.loadIpInfo()
 
         currentWeatherCard.setOnClickListener {
+            weatherViewModel.setLoading(true)
             val intent = Intent(requireContext(), DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
@@ -96,6 +97,7 @@ class HomeScreenFragment : Fragment() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
+            weatherViewModel.setLoading(false)
         }
     }
 
@@ -109,7 +111,7 @@ class HomeScreenFragment : Fragment() {
         pressureTextView: TextView,
         weatherSummaryTextView: TextView
     ) {
-
+        weatherViewModel.setLoading(true)
         val values = currentWeather.getJSONObject("values")
         val temperature = values.getDouble("temperature").roundToInt()
         val humidity = values.getInt("humidity")
@@ -128,6 +130,6 @@ class HomeScreenFragment : Fragment() {
 
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)
         weatherIconImageView.setImageResource(weatherIconResId)
-
+        weatherViewModel.setLoading(false)
     }
 }
