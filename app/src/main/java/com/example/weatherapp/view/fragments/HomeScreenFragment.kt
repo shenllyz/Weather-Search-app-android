@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,13 +25,14 @@ import org.json.JSONObject
 import kotlin.math.roundToInt
 
 class HomeScreenFragment : Fragment() {
-    private val weatherViewModel: WeatherViewModel by viewModels()
+    private val weatherViewModel: WeatherViewModel by activityViewModels()
     private lateinit var forecastAdapter: ForecastAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("HomeScreenFragment", "onCreateView called")
         return inflater.inflate(R.layout.home_screen_fragment, container, false)
     }
 
@@ -58,9 +60,11 @@ class HomeScreenFragment : Fragment() {
         })
 
         weatherViewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
+            Log.d("HomeScreenFragment", "currentWeather observed")
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
                 windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
-            Log.d("HomeScreenFragment", "Current Weather: $currentWeather")
+            weatherViewModel.setLoading(false) // Set isLoading to false after updating the weather attributes
+            Log.d("HomeScreenFragment", "isLoading to false")
         })
 
         weatherViewModel.dailyWeather.observe(viewLifecycleOwner, Observer { dailyWeather ->
@@ -105,6 +109,7 @@ class HomeScreenFragment : Fragment() {
         pressureTextView: TextView,
         weatherSummaryTextView: TextView
     ) {
+
         val values = currentWeather.getJSONObject("values")
         val temperature = values.getDouble("temperature").roundToInt()
         val humidity = values.getInt("humidity")
@@ -123,5 +128,6 @@ class HomeScreenFragment : Fragment() {
 
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)
         weatherIconImageView.setImageResource(weatherIconResId)
+
     }
 }

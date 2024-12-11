@@ -12,6 +12,10 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
     private val repository = WeatherRepository(application)
 
+    private val _isLoading = MutableLiveData<Boolean>().apply { value = true }
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+
     private val _dailyWeather = MutableLiveData<List<JSONObject>>()
     val dailyWeather: LiveData<List<JSONObject>> get() = _dailyWeather
 
@@ -109,6 +113,10 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 _error.value = errorMessage
             }
         )
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.postValue(isLoading)
     }
 
     private fun parseDailyWeather(response: JSONObject) {
