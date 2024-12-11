@@ -187,4 +187,62 @@ class WeatherRepository(context: Context) {
         requestQueue.add(jsonArrayRequest)
     }
 
+    fun addFavorite(
+        city: String,
+        state: String,
+        lat: Double,
+        lng: Double,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "${ApiConstants.BASE_URL}/add_favorite_location"
+        val params = JSONObject().apply {
+            put("city", city)
+            put("state", state)
+            put("lat", lat)
+            put("lng", lng)
+        }
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, params,
+            { response ->
+                try {
+                    if (response.getBoolean("success")) {
+                        onSuccess()
+                    } else {
+                        onError("Failed to add favorite: ${response.optString("message")}")
+                    }
+                } catch (e: Exception) {
+                    onError("Error parsing add favorite response: ${e.message}")
+                }
+            },
+            { error ->
+                onError(error.message ?: "Error adding favorite")
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    fun deleteFavorite(
+        context: Context,
+        id: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "${ApiConstants.BASE_URL}/delete_favorite_location?id=$id"
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                onSuccess()
+            },
+            { error ->
+                onError("Request failed: ${error.message}")
+            }
+        )
+        requestQueue.add(jsonObjectRequest)
+    }
+
 }

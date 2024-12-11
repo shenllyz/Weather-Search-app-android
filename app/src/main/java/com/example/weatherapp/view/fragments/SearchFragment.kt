@@ -16,7 +16,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search_bar, container, false)
 
         val appTitle: TextView = view.findViewById(R.id.app_title)
         val searchIcon: ImageView = view.findViewById(R.id.searchicon)

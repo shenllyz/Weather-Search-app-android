@@ -2,6 +2,7 @@
 package com.example.weatherapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_today, container, false)
-
+        Log.d("TodayFragment", "onCreateView called")
         val windSpeed = arguments?.getString("wind_speed")
         val pressure = arguments?.getString("pressure")
         val precipitation = arguments?.getInt("precipitation")?:0

@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.weatherapp.R
+import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.highsoft.highcharts.common.hichartsclasses.*
 import com.highsoft.highcharts.core.HIChartView
 import com.highsoft.highcharts.common.HIColor
@@ -31,6 +33,7 @@ class WeatherDataFragment : Fragment() {
     }
 
     private fun renderChart(chartView: HIChartView, precipitation: Int, humidity: Int, cloudCover: Int) {
+
         val options = HIOptions()
 
         val chart = HIChart().apply {
@@ -155,6 +158,7 @@ class WeatherDataFragment : Fragment() {
         options.series = arrayListOf(solidgauge1, solidgauge2, solidgauge3)
 
         chartView.options = options
+
     }
 
     private val renderIconsString = "function renderIcons() {" +

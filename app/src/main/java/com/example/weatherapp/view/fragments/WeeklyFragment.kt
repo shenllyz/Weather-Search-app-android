@@ -1,11 +1,14 @@
 package com.example.weatherapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.weatherapp.R
+import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.highsoft.highcharts.core.*
 import com.highsoft.highcharts.common.hichartsclasses.*
 import com.highsoft.highcharts.common.HIColor
@@ -35,6 +38,8 @@ class WeeklyFragment : Fragment() {
     }
 
     private fun renderChart(chartView: HIChartView, data: List<Triple<Long, Int, Int>>) {
+
+        Log.d("WeeklyFragment", "Rendering chart with data: $data")
         val options = HIOptions()
 
         val chart = HIChart().apply {
@@ -89,6 +94,7 @@ class WeeklyFragment : Fragment() {
 
         options.series = arrayListOf(series)
         chartView.options = options
+
     }
 
 }

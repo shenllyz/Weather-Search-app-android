@@ -77,7 +77,7 @@ class HomeScreenFragment : Fragment() {
         weatherViewModel.loadIpInfo()
 
         currentWeatherCard.setOnClickListener {
-            weatherViewModel.setLoading(true)
+
             val intent = Intent(requireContext(), DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
@@ -97,7 +97,7 @@ class HomeScreenFragment : Fragment() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
-            weatherViewModel.setLoading(false)
+
         }
     }
 
