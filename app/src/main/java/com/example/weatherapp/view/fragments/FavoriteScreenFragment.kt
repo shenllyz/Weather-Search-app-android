@@ -1,3 +1,4 @@
+// FavoriteScreenFragment.kt
 package com.example.weatherapp.view.fragments
 
 import android.content.Intent
@@ -8,10 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -22,13 +20,16 @@ import com.example.weatherapp.R
 import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activities.DetailActivity
+import com.example.weatherapp.view.activities.MainActivity
 import com.example.weatherapp.view.adapters.ForecastAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
 import kotlin.math.roundToInt
-class FavoriteScreenFragment: Fragment() {
+
+class FavoriteScreenFragment : Fragment() {
     private val weatherViewModel: WeatherViewModel by viewModels()
+    private val favoritesViewModel: WeatherViewModel by activityViewModels()
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var city: String
     private lateinit var state: String
@@ -41,7 +42,6 @@ class FavoriteScreenFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_favorite_screen, container, false)
     }
 
@@ -68,7 +68,7 @@ class FavoriteScreenFragment: Fragment() {
         val currentWeatherCard: LinearLayout = view.findViewById(R.id.current_weather_card)
         var temperatureChartOptions = mutableListOf<Triple<Long, Int, Int>>()
         val deleteFab: FloatingActionButton = view.findViewById(R.id.delete_fab)
-        val addFab: FloatingActionButton = view.findViewById(R.id.add_fab)
+
 
         forecastRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         forecastAdapter = ForecastAdapter(emptyList())
@@ -78,44 +78,35 @@ class FavoriteScreenFragment: Fragment() {
         weatherViewModel.loadFavorites()
 
         weatherViewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
-
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
                 windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
             Log.d("FavoriteScreenFragment", "currentWeather observed")
-
         })
 
         weatherViewModel.dailyWeather.observe(viewLifecycleOwner, Observer { dailyWeather ->
             forecastAdapter = ForecastAdapter(dailyWeather)
             temperatureChartOptions = forecastAdapter.getTemperatureChartOptions().toMutableList()
-
             forecastRecyclerView.adapter = forecastAdapter
         })
 
         weatherViewModel.favorites.observe(viewLifecycleOwner) { favorites ->
             this.favorites = favorites
             Log.d("FavoriteScreenFragment", citystate)
-            val isFavorite = favorites.any { it.city == city && it.state == state }
-            addFab.visibility = if (isFavorite) View.GONE else View.VISIBLE
-            deleteFab.visibility = if (isFavorite) View.VISIBLE else View.GONE
         }
 
-        addFab.setOnClickListener {
-            val favoriteLocation = FavoriteLocation(city, state, lat, lng)
-            weatherViewModel.addFavorite(favoriteLocation)
-        }
 
         deleteFab.setOnClickListener {
             val favoriteLocation = favorites.find { it.city == city && it.state == state }
             favoriteLocation?.let {
                 weatherViewModel.deleteFavorite(it)
+                favoritesViewModel.loadFavorites()
+                (activity as? MainActivity)?.refreshViewPager()
             }
-
         }
+
         cityNameTextView.text = citystate
 
         currentWeatherCard.setOnClickListener {
-
             val intent = Intent(requireContext(), DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
@@ -135,7 +126,6 @@ class FavoriteScreenFragment: Fragment() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
-
         }
     }
 

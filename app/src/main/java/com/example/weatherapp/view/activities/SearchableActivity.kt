@@ -2,11 +2,12 @@ package com.example.weatherapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var loadingPage: View
     private lateinit var searchResultContent: LinearLayout
     private var favorites: List<FavoriteLocation> = emptyList()
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("SearchableActivity", "SearchableActivity onCreate called")
@@ -84,12 +86,15 @@ class SearchableActivity : AppCompatActivity() {
         }
 
         weatherViewModel.isLoading.observe(this) { isLoading ->
+            Log.d("SearchableActivity", "Loading updated: $isLoading")
             if (isLoading) {
-                loadingPage.visibility = View.VISIBLE
-                searchResultContent.visibility = View.GONE
+                showProgressBar()
             } else {
-                loadingPage.visibility = View.GONE
-                searchResultContent.visibility = View.VISIBLE
+                handler.postDelayed({
+                    if (weatherViewModel.isLoading.value == false) {
+                        hideProgressBarAndShowViewPager()
+                    }
+                }, 300)
             }
         }
 
@@ -119,7 +124,6 @@ class SearchableActivity : AppCompatActivity() {
             favoriteLocation?.let {
                 weatherViewModel.deleteFavorite(it)
             }
-
         }
 
         currentWeatherCard.setOnClickListener {
@@ -142,6 +146,16 @@ class SearchableActivity : AppCompatActivity() {
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
         }
+    }
+
+    private fun showProgressBar() {
+        loadingPage.visibility = View.VISIBLE
+        searchResultContent.visibility = View.GONE
+    }
+
+    private fun hideProgressBarAndShowViewPager() {
+        loadingPage.visibility = View.GONE
+        searchResultContent.visibility = View.VISIBLE
     }
 
     private fun updateWeatherAttributes(
