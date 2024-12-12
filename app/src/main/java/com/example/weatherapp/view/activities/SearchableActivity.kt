@@ -2,14 +2,14 @@ package com.example.weatherapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
@@ -22,13 +22,18 @@ import kotlin.math.roundToInt
 class SearchableActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
     private lateinit var forecastAdapter: ForecastAdapter
+    private lateinit var loadingPage: View
+    private lateinit var searchResultContent: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("SearchableActivity", "SearchableActivity onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         val formattedAddress = intent.getStringExtra("formatted_address")
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
+        val cityName = intent.getStringExtra("city_name") // Retrieve the city name
 
         val currentTemperatureTextView: TextView = findViewById(R.id.current_temperature)
         val cityNameTextView: TextView = findViewById(R.id.city_name)
@@ -43,7 +48,8 @@ class SearchableActivity : AppCompatActivity() {
         var temperatureChartOptions = mutableListOf<Triple<Long, Int, Int>>()
         val resultToolbarTitle: TextView = findViewById(R.id.result_toolbar_title)
         val backtoHomeIcon: ImageView = findViewById(R.id.search_result_backButton)
-
+        loadingPage = findViewById(R.id.loading_page)
+        searchResultContent = findViewById(R.id.search_result_content)
 
         forecastRecyclerView.layoutManager = LinearLayoutManager(this)
         forecastAdapter = ForecastAdapter(emptyList())
@@ -58,9 +64,22 @@ class SearchableActivity : AppCompatActivity() {
 
         weatherViewModel.dailyWeather.observe(this) { dailyWeather ->
             forecastAdapter = ForecastAdapter(dailyWeather)
+            temperatureChartOptions = forecastAdapter.getTemperatureChartOptions().toMutableList()
             forecastRecyclerView.adapter = forecastAdapter
         }
+
+        weatherViewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) {
+                loadingPage.visibility = View.VISIBLE
+                searchResultContent.visibility = View.GONE
+            } else {
+                loadingPage.visibility = View.GONE
+                searchResultContent.visibility = View.VISIBLE
+            }
+        }
+
         resultToolbarTitle.text = formattedAddress
+        cityNameTextView.text = cityName // Set the city name
         backtoHomeIcon.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -69,9 +88,7 @@ class SearchableActivity : AppCompatActivity() {
         }
 
         currentWeatherCard.setOnClickListener {
-
             val intent = Intent(this, DetailActivity::class.java)
-            val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
             val weatherDesc = weatherSummaryTextView.text.toString()
             val currentWeather = weatherViewModel.currentWeather.value
@@ -89,10 +106,9 @@ class SearchableActivity : AppCompatActivity() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
-
         }
-
     }
+
     private fun updateWeatherAttributes(
         currentWeather: JSONObject,
         currentTemperatureTextView: TextView,
@@ -103,6 +119,7 @@ class SearchableActivity : AppCompatActivity() {
         pressureTextView: TextView,
         weatherSummaryTextView: TextView
     ) {
+        weatherViewModel.setLoading(true)
         val values = currentWeather.getJSONObject("values")
         val temperature = values.getDouble("temperature").roundToInt()
         val humidity = values.getInt("humidity")
@@ -111,6 +128,7 @@ class SearchableActivity : AppCompatActivity() {
         val pressure = values.getDouble("pressureSeaLevel")
         val weatherCode = values.getInt("weatherCode")
 
+        // Update the views with the current weather data
         currentTemperatureTextView.text = "${temperature}°F"
         humidityTextView.text = "$humidity%"
         windSpeedTextView.text = "${windSpeed}mph"
@@ -120,5 +138,6 @@ class SearchableActivity : AppCompatActivity() {
 
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)
         weatherIconImageView.setImageResource(weatherIconResId)
+        weatherViewModel.setLoading(false)
     }
 }

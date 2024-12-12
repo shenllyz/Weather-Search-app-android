@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.view.activities.SearchableActivity
@@ -19,6 +17,7 @@ import com.example.weatherapp.viewmodel.WeatherViewModel
 
 class SearchFragment : Fragment() {
     private val weatherViewModel: WeatherViewModel by viewModels()
+    private var isActivityStarted = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,17 +69,23 @@ class SearchFragment : Fragment() {
 
         searchable.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    weatherViewModel.loadGeocodingData(it)
-                    weatherViewModel.latitude.observe(viewLifecycleOwner) { lat ->
-                        weatherViewModel.longitude.observe(viewLifecycleOwner) { lon ->
-                            weatherViewModel.formattedAddress.observe(viewLifecycleOwner) { address ->
-                                val intent = Intent(activity, SearchableActivity::class.java).apply {
-                                    putExtra("formatted_address", address)
-                                    putExtra("latitude", lat)
-                                    putExtra("longitude", lon)
+                if (!isActivityStarted) {
+                    isActivityStarted = true
+                    query?.let {
+                        weatherViewModel.loadGeocodingData(it)
+                        weatherViewModel.latitude.observe(viewLifecycleOwner) { lat ->
+                            weatherViewModel.longitude.observe(viewLifecycleOwner) { lon ->
+                                weatherViewModel.formattedAddress.observe(viewLifecycleOwner) { address ->
+                                    val intent = Intent(activity, SearchableActivity::class.java).apply {
+                                        putExtra("formatted_address", address)
+                                        putExtra("latitude", lat)
+                                        putExtra("longitude", lon)
+                                        putExtra("city_name", query)
+                                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    }
+                                    startActivity(intent)
+                                    isActivityStarted = false
                                 }
-                                startActivity(intent)
                             }
                         }
                     }
