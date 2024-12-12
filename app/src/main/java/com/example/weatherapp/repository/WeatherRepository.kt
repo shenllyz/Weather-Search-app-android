@@ -1,10 +1,12 @@
 package com.example.weatherapp.repository
 import android.content.Context
+import android.util.Log
 import com.example.weatherapp.utils.ApiConstants
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.weatherapp.model.FavoriteLocation
 import org.json.JSONObject
@@ -225,19 +227,19 @@ class WeatherRepository(context: Context) {
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        val url = "${ApiConstants.BASE_URL}/delete_favorite_location?id=$id"
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET,
+        val url = "${ApiConstants.BASE_URL}/delete_favorite_location/$id"
+        val deleteRequest  = StringRequest(
+            Request.Method.DELETE,
             url,
-            null,
             { response ->
                 onSuccess()
             },
             { error ->
+
                 onError("Request failed: ${error.message}")
             }
         )
-        requestQueue.add(jsonObjectRequest)
+        requestQueue.add(deleteRequest )
     }
 
 }

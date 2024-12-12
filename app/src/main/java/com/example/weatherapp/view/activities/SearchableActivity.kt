@@ -26,6 +26,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var forecastAdapter: ForecastAdapter
     private lateinit var loadingPage: View
     private lateinit var searchResultContent: LinearLayout
+    private var favorites: List<FavoriteLocation> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("SearchableActivity", "SearchableActivity onCreate called")
@@ -63,6 +64,7 @@ class SearchableActivity : AppCompatActivity() {
         forecastRecyclerView.adapter = forecastAdapter
 
         weatherViewModel.loadWeatherData(latitude, longitude)
+        weatherViewModel.loadFavorites()
 
         weatherViewModel.currentWeather.observe(this) { currentWeather ->
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
@@ -85,6 +87,13 @@ class SearchableActivity : AppCompatActivity() {
             }
         }
 
+        weatherViewModel.favorites.observe(this) { favorites ->
+            this.favorites = favorites
+            val isFavorite = favorites.any { it.city == city && it.state == state }
+            addFab.visibility = if (isFavorite) View.GONE else View.VISIBLE
+            deleteFab.visibility = if (isFavorite) View.VISIBLE else View.GONE
+        }
+
         resultToolbarTitle.text = formattedAddress
         cityNameTextView.text = cityName // Set the city name
         backtoHomeIcon.setOnClickListener {
@@ -97,12 +106,14 @@ class SearchableActivity : AppCompatActivity() {
         addFab.setOnClickListener {
             val favoriteLocation = FavoriteLocation(city, state, latitude, longitude)
             weatherViewModel.addFavorite(favoriteLocation)
-            Log.d("SearchableActivity", "Favorite location added: $favoriteLocation")
         }
 
         deleteFab.setOnClickListener {
-            val favoriteLocation = FavoriteLocation(city, state, latitude, longitude)
-            weatherViewModel.deleteFavorite(favoriteLocation)
+            val favoriteLocation = favorites.find { it.city == city && it.state == state }
+            favoriteLocation?.let {
+                weatherViewModel.deleteFavorite(it)
+            }
+
         }
 
         currentWeatherCard.setOnClickListener {

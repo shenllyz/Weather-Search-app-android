@@ -124,9 +124,9 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             lat = location.lat,
             lng = location.lng,
             onSuccess = {
-                Log.d("WeatherViewModel", "${location.city} was added to favorites")
                 Toast.makeText(getApplication(), "${location.city} was added to favorites", Toast.LENGTH_SHORT).show()
-            },
+                loadFavorites()
+                        },
             onError = { errorMessage ->
                 _error.value = errorMessage
             }
@@ -138,6 +138,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 id = id,
                 onSuccess = {
                     Toast.makeText(getApplication(), "${location.city} was removed from favorites", Toast.LENGTH_SHORT).show()
+                    loadFavorites()
                 },
                 onError = { errorMessage ->
                     _error.value = errorMessage
