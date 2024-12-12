@@ -1,6 +1,8 @@
 package com.example.weatherapp.viewmodel
 
 import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -115,6 +117,36 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
+    fun addFavorite(location: FavoriteLocation) {
+        repository.addFavorite(
+            city = location.city,
+            state = location.state,
+            lat = location.lat,
+            lng = location.lng,
+            onSuccess = {
+                Log.d("WeatherViewModel", "${location.city} was added to favorites")
+                Toast.makeText(getApplication(), "${location.city} was added to favorites", Toast.LENGTH_SHORT).show()
+            },
+            onError = { errorMessage ->
+                _error.value = errorMessage
+            }
+        )
+    }
+    fun deleteFavorite(location: FavoriteLocation) {
+        location.id?.let { id ->
+            repository.deleteFavorite(
+                id = id,
+                onSuccess = {
+                    Toast.makeText(getApplication(), "${location.city} was removed from favorites", Toast.LENGTH_SHORT).show()
+                },
+                onError = { errorMessage ->
+                    _error.value = errorMessage
+                }
+            )
+        } ?: run {
+            _error.value = "Favorite location ID is missing"
+        }
+    }
     fun setLoading(isLoading: Boolean) {
         _isLoading.postValue(isLoading)
     }

@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.adapters.ForecastAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
@@ -34,6 +36,11 @@ class SearchableActivity : AppCompatActivity() {
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
         val cityName = intent.getStringExtra("city_name") // Retrieve the city name
+        val cityState = cityName?.split(",")?.map { it.trim() }
+        val city = cityState?.getOrNull(0) ?: ""
+        val state = cityState?.getOrNull(1) ?: ""
+        val deleteFab: FloatingActionButton = findViewById(R.id.delete_fab)
+        val addFab: FloatingActionButton = findViewById(R.id.add_fab)
 
         val currentTemperatureTextView: TextView = findViewById(R.id.current_temperature)
         val cityNameTextView: TextView = findViewById(R.id.city_name)
@@ -85,6 +92,17 @@ class SearchableActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
+        }
+
+        addFab.setOnClickListener {
+            val favoriteLocation = FavoriteLocation(city, state, latitude, longitude)
+            weatherViewModel.addFavorite(favoriteLocation)
+            Log.d("SearchableActivity", "Favorite location added: $favoriteLocation")
+        }
+
+        deleteFab.setOnClickListener {
+            val favoriteLocation = FavoriteLocation(city, state, latitude, longitude)
+            weatherViewModel.deleteFavorite(favoriteLocation)
         }
 
         currentWeatherCard.setOnClickListener {

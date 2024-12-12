@@ -207,11 +207,7 @@ class WeatherRepository(context: Context) {
             Request.Method.POST, url, params,
             { response ->
                 try {
-                    if (response.getBoolean("success")) {
                         onSuccess()
-                    } else {
-                        onError("Failed to add favorite: ${response.optString("message")}")
-                    }
                 } catch (e: Exception) {
                     onError("Error parsing add favorite response: ${e.message}")
                 }
@@ -225,7 +221,6 @@ class WeatherRepository(context: Context) {
     }
 
     fun deleteFavorite(
-        context: Context,
         id: String,
         onSuccess: () -> Unit,
         onError: (String) -> Unit

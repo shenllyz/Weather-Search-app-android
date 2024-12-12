@@ -5,5 +5,5 @@ data class FavoriteLocation(
     val state: String,
     val lat: Double,
     val lng: Double,
-    val id: String
+    val id: String? = null
 )
