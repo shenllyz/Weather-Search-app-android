@@ -10,6 +10,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
@@ -32,7 +34,11 @@ class SearchableActivity : AppCompatActivity() {
         Log.d("SearchableActivity", "SearchableActivity onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_result_main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         val formattedAddress = intent.getStringExtra("formatted_address")
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)

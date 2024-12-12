@@ -11,6 +11,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.view.fragments.HomeScreenFragment
 import com.example.weatherapp.view.fragments.ProgressBarFragment
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var indicatorTabs: TabLayout
-    private val progressBarFragment = ProgressBarFragment()
+    private lateinit var loadingPage: View
     private var currentFavorites: List<FavoriteLocation> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -42,11 +43,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Initialize Fragments
-        val progressBarFragment = ProgressBarFragment()
+
         val searchFragment = SearchFragment()
 
-
+        loadingPage = findViewById(R.id.loading_page)
         val indicatorsLayout: View = findViewById(R.id.indicators)
         indicatorTabs = indicatorsLayout.findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.viewPager)
@@ -56,40 +56,36 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "Favorites updated: $favorites")
             setupViewPager(favorites)
         }
+        weatherViewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) {
+                showProgressBar()
+            }
+            else {
+                hideProgressBarAndShowViewPager()
+            }
+        }
 
         // Add the fragments to their containers
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add(R.id.search_fragment, searchFragment)
-                add(R.id.progress_bar_fragment_container, progressBarFragment)
-
             }
         }
-
-        // Observe isLoading LiveData
-        weatherViewModel.isLoading.observe(this) { isLoading ->
-            Log.d("MainActivity", "isLoading: $isLoading")
-            toggleFragments(isLoading)
-        }
-
         // Load Favorites
         weatherViewModel.loadFavorites()
-        weatherViewModel.setLoading(false)
+    }
+    private fun showProgressBar() {
+        loadingPage.visibility = View.VISIBLE
+        viewPager.visibility = View.GONE
+        indicatorTabs.visibility = View.GONE
     }
 
-    private fun toggleFragments(isLoading: Boolean) {
-        supportFragmentManager.commit {
-            if (isLoading) {
-                show(progressBarFragment)
-                viewPager.visibility = View.GONE
-                indicatorTabs.visibility = View.GONE
-            } else {
-                hide(progressBarFragment)
-                viewPager.visibility = View.VISIBLE
-                indicatorTabs.visibility = View.VISIBLE
-            }
-        }
+    private fun hideProgressBarAndShowViewPager() {
+            loadingPage.visibility = View.GONE
+            viewPager.visibility = View.VISIBLE
+            indicatorTabs.visibility = View.VISIBLE
     }
+
 
     private fun setupViewPager(favorites: List<FavoriteLocation>) {
         if (favorites == currentFavorites) return
@@ -97,9 +93,19 @@ class MainActivity : AppCompatActivity() {
         viewPagerAdapter = ViewPagerAdapter(this, favorites)
         viewPager.adapter = viewPagerAdapter
 
+
+        viewPager.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                Log.d("MainActivity", "ViewPager data loaded")
+                hideProgressBarAndShowViewPager()
+            }
+        })
+
         indicatorTabs.removeAllTabs()
         TabLayoutMediator(indicatorTabs, viewPager) { tab, position ->
             tab.icon = AppCompatResources.getDrawable(this, R.drawable.tab_indicator)
         }.attach()
+
     }
 }

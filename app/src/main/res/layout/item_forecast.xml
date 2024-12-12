@@ -10,12 +10,12 @@
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="0dp"
+        android:layout_width="70dp"
         android:layout_height="32dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center|start"
-        android:textColor="@android:color/white"
-        android:text="N/A" />
+        android:text="N/A"
+        android:textColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/iv_weather_icon"
@@ -37,7 +37,8 @@
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="center|start"
+        android:paddingStart="10dp"
         android:text="N/A°"
         android:textColor="@android:color/white" />
 
