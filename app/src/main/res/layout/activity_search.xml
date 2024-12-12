@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    android:fitsSystemWindows="true"
-    android:padding="12dp">
+    android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -294,6 +293,8 @@
         android:layout_margin="16dp"
         android:layout_marginBottom="100dp"
         android:clickable="true"
+        app:layout_anchor="@id/forecast_recyclerview"
+        app:layout_anchorGravity="center|end"
         android:contentDescription="@string/fab_transformation_scrim_behavior"
         android:src="@drawable/add_fav"
         app:backgroundTint="@android:color/white"
@@ -306,8 +307,10 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:visibility="gone"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="300dp"
         android:clickable="true"
+        app:layout_anchor="@id/forecast_recyclerview"
+        app:layout_anchorGravity="center|end"
         android:contentDescription="@string/fab_transformation_sheet_behavior"
         android:src="@drawable/rem_fav"
         app:backgroundTint="@android:color/white"

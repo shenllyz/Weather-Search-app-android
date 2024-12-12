@@ -1,110 +1,107 @@
-package com.example.weatherapp.view.activities
+package com.example.weatherapp.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.utils.WeatherUtils
+import com.example.weatherapp.view.activities.DetailActivity
 import com.example.weatherapp.view.adapters.ForecastAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
 import kotlin.math.roundToInt
-
-class SearchableActivity : AppCompatActivity() {
+class FavoriteScreenFragment: Fragment() {
     private val weatherViewModel: WeatherViewModel by viewModels()
     private lateinit var forecastAdapter: ForecastAdapter
-    private lateinit var loadingPage: View
-    private lateinit var searchResultContent: LinearLayout
+    private lateinit var city: String
+    private lateinit var state: String
+    private var lat: Double = 0.0
+    private var lng: Double = 0.0
+    private var id: String? = null
     private var favorites: List<FavoriteLocation> = emptyList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("SearchableActivity", "SearchableActivity onCreate called")
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        val formattedAddress = intent.getStringExtra("formatted_address")
-        val latitude = intent.getDoubleExtra("latitude", 0.0)
-        val longitude = intent.getDoubleExtra("longitude", 0.0)
-        val cityName = intent.getStringExtra("city_name") // Retrieve the city name
-        val cityState = cityName?.split(",")?.map { it.trim() }
-        val city = cityState?.getOrNull(0) ?: ""
-        val state = cityState?.getOrNull(1) ?: ""
-        val deleteFab: FloatingActionButton = findViewById(R.id.delete_fab)
-        val addFab: FloatingActionButton = findViewById(R.id.add_fab)
+        return inflater.inflate(R.layout.fragment_favorite_screen, container, false)
+    }
 
-        val currentTemperatureTextView: TextView = findViewById(R.id.current_temperature)
-        val cityNameTextView: TextView = findViewById(R.id.city_name)
-        val weatherIconImageView: ImageView = findViewById(R.id.weather_icon)
-        val humidityTextView: TextView = findViewById(R.id.humidity)
-        val windSpeedTextView: TextView = findViewById(R.id.wind_speed)
-        val visibilityTextView: TextView = findViewById(R.id.visibility)
-        val pressureTextView: TextView = findViewById(R.id.pressure)
-        val weatherSummaryTextView: TextView = findViewById(R.id.weather_summary)
-        val forecastRecyclerView: RecyclerView = findViewById(R.id.forecast_recyclerview)
-        val currentWeatherCard: LinearLayout = findViewById(R.id.current_weather_card)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            city = it.getString("city").orEmpty()
+            state = it.getString("state").orEmpty()
+            lat = it.getDouble("latitude")
+            lng = it.getDouble("longitude")
+            id = it.getString("id")
+        }
+
+        val citystate = "$city, $state"
+        val currentTemperatureTextView: TextView = view.findViewById(R.id.current_temperature)
+        val cityNameTextView: TextView = view.findViewById(R.id.city_name)
+        val weatherIconImageView: ImageView = view.findViewById(R.id.weather_icon)
+        val humidityTextView: TextView = view.findViewById(R.id.humidity)
+        val windSpeedTextView: TextView = view.findViewById(R.id.wind_speed)
+        val visibilityTextView: TextView = view.findViewById(R.id.visibility)
+        val pressureTextView: TextView = view.findViewById(R.id.pressure)
+        val weatherSummaryTextView: TextView = view.findViewById(R.id.weather_summary)
+        val forecastRecyclerView: RecyclerView = view.findViewById(R.id.forecast_recyclerview)
+        val currentWeatherCard: LinearLayout = view.findViewById(R.id.current_weather_card)
         var temperatureChartOptions = mutableListOf<Triple<Long, Int, Int>>()
-        val resultToolbarTitle: TextView = findViewById(R.id.result_toolbar_title)
-        val backtoHomeIcon: ImageView = findViewById(R.id.search_result_backButton)
-        loadingPage = findViewById(R.id.loading_page)
-        searchResultContent = findViewById(R.id.search_result_content)
+        val deleteFab: FloatingActionButton = view.findViewById(R.id.delete_fab)
+        val addFab: FloatingActionButton = view.findViewById(R.id.add_fab)
 
-        forecastRecyclerView.layoutManager = LinearLayoutManager(this)
+        forecastRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         forecastAdapter = ForecastAdapter(emptyList())
         forecastRecyclerView.adapter = forecastAdapter
 
-        weatherViewModel.loadWeatherData(latitude, longitude)
+        weatherViewModel.loadWeatherData(lat, lng)
         weatherViewModel.loadFavorites()
 
-        weatherViewModel.currentWeather.observe(this) { currentWeather ->
+        weatherViewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
+
             updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
                 windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
-        }
+            Log.d("FavoriteScreenFragment", "currentWeather observed")
 
-        weatherViewModel.dailyWeather.observe(this) { dailyWeather ->
+        })
+
+        weatherViewModel.dailyWeather.observe(viewLifecycleOwner, Observer { dailyWeather ->
             forecastAdapter = ForecastAdapter(dailyWeather)
             temperatureChartOptions = forecastAdapter.getTemperatureChartOptions().toMutableList()
+
             forecastRecyclerView.adapter = forecastAdapter
-        }
+        })
 
-        weatherViewModel.isLoading.observe(this) { isLoading ->
-            if (isLoading) {
-                loadingPage.visibility = View.VISIBLE
-                searchResultContent.visibility = View.GONE
-            } else {
-                loadingPage.visibility = View.GONE
-                searchResultContent.visibility = View.VISIBLE
-            }
-        }
-
-        weatherViewModel.favorites.observe(this) { favorites ->
+        weatherViewModel.favorites.observe(viewLifecycleOwner) { favorites ->
             this.favorites = favorites
+            Log.d("FavoriteScreenFragment", citystate)
             val isFavorite = favorites.any { it.city == city && it.state == state }
             addFab.visibility = if (isFavorite) View.GONE else View.VISIBLE
             deleteFab.visibility = if (isFavorite) View.VISIBLE else View.GONE
         }
 
-        resultToolbarTitle.text = cityName
-        cityNameTextView.text = cityName // Set the city name
-        backtoHomeIcon.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
-        }
-
         addFab.setOnClickListener {
-            val favoriteLocation = FavoriteLocation(city, state, latitude, longitude)
+            val favoriteLocation = FavoriteLocation(city, state, lat, lng)
             weatherViewModel.addFavorite(favoriteLocation)
         }
 
@@ -115,9 +112,12 @@ class SearchableActivity : AppCompatActivity() {
             }
 
         }
+        cityNameTextView.text = citystate
 
         currentWeatherCard.setOnClickListener {
-            val intent = Intent(this, DetailActivity::class.java)
+
+            val intent = Intent(requireContext(), DetailActivity::class.java)
+            val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
             val weatherDesc = weatherSummaryTextView.text.toString()
             val currentWeather = weatherViewModel.currentWeather.value
@@ -135,6 +135,7 @@ class SearchableActivity : AppCompatActivity() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
+
         }
     }
 

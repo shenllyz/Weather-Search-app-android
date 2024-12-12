@@ -55,7 +55,6 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 _latitude.value = lat
                 _longitude.value = lon
                 _formattedAddress.value = formattedAddress
-                loadWeatherData(lat, lon)
             },
             onError = { errorMessage ->
                 _error.value = errorMessage
