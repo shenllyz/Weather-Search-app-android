@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dropdown_item"
-    style="?android:attr/dropDownItemStyle"
-    android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-    android:singleLine="true"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/suggestion_text"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@color/dropdown"
-    android:textColor="@color/white"
-    android:ellipsize="marquee" />
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:textColor="@android:color/white"
+    android:background="@android:color/black"
+    android:textSize="16sp" />

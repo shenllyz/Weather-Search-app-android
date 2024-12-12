@@ -43,19 +43,11 @@
             android:layout_height="match_parent"
             app:searchIcon="@null"
             app:layout_constraintStart_toEndOf="@id/app_title"
-            app:layout_constraintEnd_toStartOf="@id/delete_search"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/delete_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:background="@drawable/close_btn"
-            app:layout_constraintEnd_toStartOf="@id/searchicon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         <ImageView
             android:id="@+id/searchicon"
