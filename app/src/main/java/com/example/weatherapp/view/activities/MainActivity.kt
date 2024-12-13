@@ -19,6 +19,7 @@ import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.model.FavoriteLocation
+import com.example.weatherapp.view.fragments.HomeScreenFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val searchFragment = SearchFragment()
+        val homeScreenFragment = HomeScreenFragment()
 
         loadingPage = findViewById(R.id.loading_page)
         val indicatorsLayout: View = findViewById(R.id.indicators)
@@ -50,10 +52,11 @@ class MainActivity : AppCompatActivity() {
         viewPager.offscreenPageLimit = 1
         setupViewPager(emptyList())
 
+
         weatherViewModel.favorites.observe(this) { favorites ->
             Log.d("MainActivity", "Favorites updated: $favorites")
             setupViewPager(favorites)
-            weatherViewModel.setLoading(false)
+            hideProgressBar()
         }
 
         weatherViewModel.isLoading.observe(this) { isLoading ->
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             if (isLoading) {
                 showProgressBar()
             } else {
-                hideProgressBarAndShowViewPager()
+                hideProgressBar()
             }
         }
 
@@ -82,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         indicatorTabs.visibility = View.GONE
     }
 
-    private fun hideProgressBarAndShowViewPager() {
+    private fun hideProgressBar() {
         loadingPage.visibility = View.GONE
         viewPager.visibility = View.VISIBLE
         indicatorTabs.visibility = View.VISIBLE

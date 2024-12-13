@@ -99,7 +99,9 @@ class FavoriteScreenFragment : Fragment() {
             val favoriteLocation = favorites.find { it.city == city && it.state == state }
             favoriteLocation?.let {
                 weatherViewModel.deleteFavorite(it)
-                favoritesViewModel.loadFavorites()
+                favoritesViewModel.deleteFavorite(it)
+                Log.d("FavoriteScreenFragment", "Favorite deleted: $it")
+
                 (activity as? MainActivity)?.refreshViewPager()
             }
         }
