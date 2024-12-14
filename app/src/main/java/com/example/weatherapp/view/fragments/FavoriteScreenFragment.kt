@@ -102,7 +102,6 @@ class FavoriteScreenFragment : Fragment() {
                 favoritesViewModel.deleteFavorite(it)
                 Log.d("FavoriteScreenFragment", "Favorite deleted: $it")
 
-                (activity as? MainActivity)?.refreshViewPager()
             }
         }
 

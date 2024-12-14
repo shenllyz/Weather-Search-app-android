@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var indicatorTabs: TabLayout
     private lateinit var loadingPage: View
-    private var currentFavorites: List<FavoriteLocation> = emptyList()
+    private var currentFavorites: MutableList<FavoriteLocation> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -50,13 +50,15 @@ class MainActivity : AppCompatActivity() {
         indicatorTabs = indicatorsLayout.findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.viewPager)
         viewPager.offscreenPageLimit = 1
-        setupViewPager(emptyList())
+        viewPagerAdapter = ViewPagerAdapter(this, currentFavorites)
+        viewPager.adapter = viewPagerAdapter
+        setupTabLayout()
 
 
-        weatherViewModel.favorites.observe(this) { favorites ->
-            Log.d("MainActivity", "Favorites updated: $favorites")
-            setupViewPager(favorites)
-            hideProgressBar()
+        weatherViewModel.favorites.observe(this) { newFavorites ->
+            Log.d("MainActivity", "Favorites updated: $newFavorites")
+            updateFavorites(newFavorites)
+            weatherViewModel.setLoading(false)
         }
 
         weatherViewModel.isLoading.observe(this) { isLoading ->
@@ -90,19 +92,38 @@ class MainActivity : AppCompatActivity() {
         viewPager.visibility = View.VISIBLE
         indicatorTabs.visibility = View.VISIBLE
     }
+    private fun updateFavorites(newFavorites: List<FavoriteLocation>) {
 
-    private fun setupViewPager(favorites: List<FavoriteLocation>) {
-        currentFavorites = favorites
-        viewPagerAdapter = ViewPagerAdapter(this, favorites)
-        viewPager.adapter = viewPagerAdapter
+        val oldList = currentFavorites.toList()
+        val oldSet = oldList.map { it.id }.toSet()
+        val newSet = newFavorites.map { it.id }.toSet()
 
-        indicatorTabs.removeAllTabs()
+        // 找出新增加的favorites
+        val added = newFavorites.filter { it.id !in oldSet }
+        // 找出被删除的favorites
+        val removed = oldList.filter { it.id !in newSet }
+
+        // 更新本地数据源
+        // 对于删除
+        for (fav in removed) {
+            fav.id?.let { viewPagerAdapter.removeFavorite(it) }
+        }
+
+        // 对于新增
+        for (fav in added) {
+            viewPagerAdapter.addFavorite(fav)
+        }
+
+
+        currentFavorites.clear()
+        currentFavorites.addAll(newFavorites)
+    }
+
+    private fun setupTabLayout() {
         TabLayoutMediator(indicatorTabs, viewPager) { tab, position ->
             tab.icon = AppCompatResources.getDrawable(this, R.drawable.tab_indicator)
         }.attach()
     }
 
-    fun refreshViewPager() {
-        setupViewPager(currentFavorites)
-    }
+
 }

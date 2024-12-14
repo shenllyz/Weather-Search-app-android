@@ -31,22 +31,18 @@ class ForecastAdapter(private val dailyWeatherList: List<JSONObject>) : Recycler
         val dailyWeather = dailyWeatherList[position]
         val startTime = dailyWeather.getString("startTime")
         val values = dailyWeather.getJSONObject("values")
-
-        // Format the date to YYYY-MM-DD
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = inputFormat.parse(startTime)
         val formattedDate = outputFormat.format(date)
 
-        // Get and round off the temperatures
+
         val temperatureMin = values.getDouble("temperatureMin").roundToInt()
         val temperatureMax = values.getDouble("temperatureMax").roundToInt()
 
-        // Get the weather code for the icon
         val weatherCode = values.getInt("weatherCode")
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)
 
-        // Bind the data to the views
         holder.tvDate.text = formattedDate
         holder.tvMinTemp.text = "$temperatureMin"
         holder.tvMaxTemp.text = "$temperatureMax"
@@ -62,7 +58,6 @@ class ForecastAdapter(private val dailyWeatherList: List<JSONObject>) : Recycler
             val startTime = dailyWeather.getString("startTime")
             val values = dailyWeather.getJSONObject("values")
 
-            // Input and output format
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
             val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -75,7 +70,6 @@ class ForecastAdapter(private val dailyWeatherList: List<JSONObject>) : Recycler
             val temperatureMin = values.getDouble("temperatureMin").roundToInt()
             val temperatureMax = values.getDouble("temperatureMax").roundToInt()
 
-            // Add to the list
             temperatureData.add(Triple(formattedDateInMillis, temperatureMin, temperatureMax))
         }
         return temperatureData

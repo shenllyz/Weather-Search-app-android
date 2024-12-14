@@ -13,13 +13,12 @@ import com.example.weatherapp.view.fragments.HomeScreenFragment
 
 class ViewPagerAdapter(
     fragmentActivity: AppCompatActivity,
-    private val favorites: List<FavoriteLocation>
+    private val favorites: MutableList<FavoriteLocation>
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = favorites.size + 1
 
     override fun createFragment(position: Int): Fragment {
-        Log.d("ViewPagerAdapter", "Creating fragment at position: $position")
         return if (position == 0) {
             HomeScreenFragment()
         } else {
@@ -36,6 +35,33 @@ class ViewPagerAdapter(
         }
     }
 
+    // 重写getItemId和containsItem用于自定义稳定ID
+    override fun getItemId(position: Int): Long {
+        return if (position == 0) {
+            "HOME_SCREEN".hashCode().toLong()
+        } else {
+            favorites[position - 1].id.hashCode().toLong()
+        }
+    }
+
+    override fun containsItem(itemId: Long): Boolean {
+        if (itemId == "HOME_SCREEN".hashCode().toLong()) return true
+        return favorites.any { it.id.hashCode().toLong() == itemId }
+    }
+
+
+    fun addFavorite(favorite: FavoriteLocation) {
+        favorites.add(favorite)
+        notifyItemInserted(favorites.size)
+    }
+
+    fun removeFavorite(favoriteId: String) {
+        val index = favorites.indexOfFirst { it.id == favoriteId }
+        if (index != -1) {
+            favorites.removeAt(index)
+            notifyItemRemoved(index + 1) // +1 offset for home screen
+        }
+    }
 }
 
 
