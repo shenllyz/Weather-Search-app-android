@@ -1,4 +1,3 @@
-// HomeScreenFragment.kt
 package com.example.weatherapp.view.fragments
 
 import android.content.Intent
@@ -12,8 +11,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
@@ -27,6 +24,7 @@ import kotlin.math.roundToInt
 class HomeScreenFragment : Fragment() {
     private val weatherViewModel: WeatherViewModel by activityViewModels()
     private lateinit var forecastAdapter: ForecastAdapter
+    private var temperatureChartOptions = mutableListOf<Triple<Long, Int, Int>>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,41 +47,53 @@ class HomeScreenFragment : Fragment() {
         val weatherSummaryTextView: TextView = view.findViewById(R.id.weather_summary)
         val forecastRecyclerView: RecyclerView = view.findViewById(R.id.forecast_recyclerview)
         val currentWeatherCard: LinearLayout = view.findViewById(R.id.current_weather_card)
-        var temperatureChartOptions = mutableListOf<Triple<Long, Int, Int>>()
 
         forecastRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         forecastAdapter = ForecastAdapter(emptyList())
         forecastRecyclerView.adapter = forecastAdapter
 
-        weatherViewModel.formattedAddress.observe(viewLifecycleOwner, Observer { address ->
+        weatherViewModel.formattedAddress.observe(viewLifecycleOwner) { address ->
             cityNameTextView.text = address
-        })
+        }
 
-        weatherViewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
+        // 当currentWeather有更新时，执行UI更新操作
+        weatherViewModel.currentWeather.observe(viewLifecycleOwner) { currentWeather ->
             Log.d("HomeScreenFragment", "currentWeather observed")
-            updateWeatherAttributes(currentWeather, currentTemperatureTextView, weatherIconImageView, humidityTextView,
-                windSpeedTextView, visibilityTextView, pressureTextView, weatherSummaryTextView)
+            updateWeatherAttributes(
+                currentWeather,
+                currentTemperatureTextView,
+                weatherIconImageView,
+                humidityTextView,
+                windSpeedTextView,
+                visibilityTextView,
+                pressureTextView,
+                weatherSummaryTextView
+            )
 
+            // 数据加载完成，设置isLoading=false，从而让MainActivity显示出ViewPager并隐藏loadingpage
+            weatherViewModel.setLoading(false)
+        }
 
-        })
-
-        weatherViewModel.dailyWeather.observe(viewLifecycleOwner, Observer { dailyWeather ->
+        weatherViewModel.dailyWeather.observe(viewLifecycleOwner) { dailyWeather ->
             forecastAdapter = ForecastAdapter(dailyWeather)
             temperatureChartOptions = forecastAdapter.getTemperatureChartOptions().toMutableList()
             Log.d("HomeScreenFragment", "Temperature Chart Options: $temperatureChartOptions")
             forecastRecyclerView.adapter = forecastAdapter
-        })
+        }
 
-        weatherViewModel.loadIpInfo()
+        // 如果是初次加载，需要获取初始位置信息
+        if (weatherViewModel.currentWeather.value == null) {
+            weatherViewModel.loadIpInfo()
+        }
 
         currentWeatherCard.setOnClickListener {
-
             val intent = Intent(requireContext(), DetailActivity::class.java)
             val cityName = cityNameTextView.text.toString()
             val temperature = currentTemperatureTextView.text.toString()
             val weatherDesc = weatherSummaryTextView.text.toString()
-            val currentWeather = weatherViewModel.currentWeather.value
-            val values = currentWeather?.getJSONObject("values")
+            val currentWeatherData = weatherViewModel.currentWeather.value
+            val values = currentWeatherData?.getJSONObject("values")
+
             intent.putExtra("city_name", cityName)
             intent.putExtra("temperature", temperature)
             intent.putExtra("humidity", values?.getInt("humidity"))
@@ -97,7 +107,6 @@ class HomeScreenFragment : Fragment() {
             intent.putExtra("weather_icon", WeatherUtils.getWeatherIcon(values?.getInt("weatherCode") ?: 0))
             intent.putExtra("temperature_chart_options", ArrayList(temperatureChartOptions))
             startActivity(intent)
-
         }
     }
 
@@ -111,7 +120,9 @@ class HomeScreenFragment : Fragment() {
         pressureTextView: TextView,
         weatherSummaryTextView: TextView
     ) {
-        weatherViewModel.setLoading(true)
+        // 不在这里设置Loading=true，因为我们希望在初始加载时就已经在Loading状态
+        Log.d("HomeScreenFragment", "Loading render start: ${weatherViewModel.isLoading.value}")
+
         val values = currentWeather.getJSONObject("values")
         val temperature = values.getDouble("temperature").roundToInt()
         val humidity = values.getInt("humidity")
@@ -120,7 +131,6 @@ class HomeScreenFragment : Fragment() {
         val pressure = values.getDouble("pressureSeaLevel")
         val weatherCode = values.getInt("weatherCode")
 
-        // Update the views with the current weather data
         currentTemperatureTextView.text = "${temperature}°F"
         humidityTextView.text = "$humidity%"
         windSpeedTextView.text = "${windSpeed}mph"
@@ -130,6 +140,8 @@ class HomeScreenFragment : Fragment() {
 
         val weatherIconResId = WeatherUtils.getWeatherIcon(weatherCode)
         weatherIconImageView.setImageResource(weatherIconResId)
-        weatherViewModel.setLoading(false)
+
+        Log.d("HomeScreenFragment", "Loading render end: ${weatherViewModel.isLoading.value}")
+        // 在此处不需要再次setLoading，因为数据刚刚加载完成，我们接下来在观察者中setLoading(false)
     }
 }

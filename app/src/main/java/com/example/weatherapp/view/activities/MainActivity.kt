@@ -1,4 +1,3 @@
-// MainActivity.kt
 package com.example.weatherapp.view.activities
 
 import ViewPagerAdapter
@@ -12,13 +11,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
-import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.view.fragments.SearchFragment
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.view.fragments.HomeScreenFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -50,15 +48,19 @@ class MainActivity : AppCompatActivity() {
         indicatorTabs = indicatorsLayout.findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.viewPager)
         viewPager.offscreenPageLimit = 1
+
+        // 初始化viewpager和adapter
+        // 注意这里使用INVISIBLE而不是GONE
+        viewPager.visibility = View.INVISIBLE
         viewPagerAdapter = ViewPagerAdapter(this, currentFavorites)
         viewPager.adapter = viewPagerAdapter
         setupTabLayout()
-
+        viewPager.setCurrentItem(0, false)
 
         weatherViewModel.favorites.observe(this) { newFavorites ->
             Log.d("MainActivity", "Favorites updated: $newFavorites")
             updateFavorites(newFavorites)
-            weatherViewModel.setLoading(false)
+            // 不在这里设置isLoading=false，让HomeScreenFragment在数据加载完再设置
         }
 
         weatherViewModel.isLoading.observe(this) { isLoading ->
@@ -77,13 +79,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Load Favorites
+        // 初始状态开始加载数据
+        weatherViewModel.setLoading(true)
         weatherViewModel.loadFavorites()
+        // 当HomeScreenFragment数据加载完后会由HomeScreenFragment设置isLoading=false
     }
 
     private fun showProgressBar() {
         loadingPage.visibility = View.VISIBLE
-        viewPager.visibility = View.GONE
+        // 不要把viewPager设成GONE，保持INVISIBLE让Fragment先行创建
+        // viewPager.visibility = View.GONE
         indicatorTabs.visibility = View.GONE
     }
 
@@ -92,28 +97,22 @@ class MainActivity : AppCompatActivity() {
         viewPager.visibility = View.VISIBLE
         indicatorTabs.visibility = View.VISIBLE
     }
-    private fun updateFavorites(newFavorites: List<FavoriteLocation>) {
 
+    private fun updateFavorites(newFavorites: List<FavoriteLocation>) {
         val oldList = currentFavorites.toList()
         val oldSet = oldList.map { it.id }.toSet()
         val newSet = newFavorites.map { it.id }.toSet()
 
-        // 找出新增加的favorites
         val added = newFavorites.filter { it.id !in oldSet }
-        // 找出被删除的favorites
         val removed = oldList.filter { it.id !in newSet }
 
-        // 更新本地数据源
-        // 对于删除
         for (fav in removed) {
             fav.id?.let { viewPagerAdapter.removeFavorite(it) }
         }
 
-        // 对于新增
         for (fav in added) {
             viewPagerAdapter.addFavorite(fav)
         }
-
 
         currentFavorites.clear()
         currentFavorites.addAll(newFavorites)
@@ -124,6 +123,4 @@ class MainActivity : AppCompatActivity() {
             tab.icon = AppCompatResources.getDrawable(this, R.drawable.tab_indicator)
         }.attach()
     }
-
-
 }

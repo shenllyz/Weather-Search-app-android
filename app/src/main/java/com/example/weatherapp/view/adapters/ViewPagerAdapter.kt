@@ -20,6 +20,7 @@ class ViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return if (position == 0) {
+            Log.d("ViewPagerAdapter", "Loading: Creating home screen fragment")
             HomeScreenFragment()
         } else {
             val favorite = favorites[position - 1]
@@ -35,7 +36,7 @@ class ViewPagerAdapter(
         }
     }
 
-    // 重写getItemId和containsItem用于自定义稳定ID
+
     override fun getItemId(position: Int): Long {
         return if (position == 0) {
             "HOME_SCREEN".hashCode().toLong()

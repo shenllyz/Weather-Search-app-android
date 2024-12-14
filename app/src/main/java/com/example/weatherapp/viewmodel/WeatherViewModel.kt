@@ -17,7 +17,6 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     private val _isLoading = MutableLiveData<Boolean>().apply { value = true }
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-
     private val _dailyWeather = MutableLiveData<List<JSONObject>>()
     val dailyWeather: LiveData<List<JSONObject>> get() = _dailyWeather
 
@@ -125,12 +124,13 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             onSuccess = {
                 Toast.makeText(getApplication(), "${location.city} was added to favorites", Toast.LENGTH_SHORT).show()
                 loadFavorites()
-                        },
+            },
             onError = { errorMessage ->
                 _error.value = errorMessage
             }
         )
     }
+
     fun deleteFavorite(location: FavoriteLocation) {
         location.id?.let { id ->
             repository.deleteFavorite(
@@ -147,6 +147,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             _error.value = "Favorite location ID is missing"
         }
     }
+
     fun setLoading(isLoading: Boolean) {
         _isLoading.postValue(isLoading)
     }
