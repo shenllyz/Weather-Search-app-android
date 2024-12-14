@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 使用FrameLayout作为容器，以便堆叠ViewPager和LoadingPage -->
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <!-- 可以将搜索栏和indicator放在一个垂直布局中 -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

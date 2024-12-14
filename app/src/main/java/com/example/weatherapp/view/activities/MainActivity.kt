@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val searchFragment = SearchFragment()
-        val homeScreenFragment = HomeScreenFragment()
+
 
         loadingPage = findViewById(R.id.loading_page)
         val indicatorsLayout: View = findViewById(R.id.indicators)
@@ -49,9 +49,6 @@ class MainActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
         viewPager.offscreenPageLimit = 1
 
-        // 初始化viewpager和adapter
-        // 注意这里使用INVISIBLE而不是GONE
-        viewPager.visibility = View.INVISIBLE
         viewPagerAdapter = ViewPagerAdapter(this, currentFavorites)
         viewPager.adapter = viewPagerAdapter
         setupTabLayout()
