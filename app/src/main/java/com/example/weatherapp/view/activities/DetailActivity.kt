@@ -3,22 +3,16 @@ package com.example.weatherapp.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.R
-import com.example.weatherapp.view.fragments.ProgressBarFragment
 import com.example.weatherapp.view.fragments.TodayFragment
 import com.example.weatherapp.view.fragments.WeatherDataFragment
 import com.example.weatherapp.view.fragments.WeeklyFragment
-import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

@@ -17,7 +17,6 @@ import com.example.weatherapp.view.fragments.SearchFragment
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.example.weatherapp.view.fragments.HomeScreenFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -55,9 +54,7 @@ class MainActivity : AppCompatActivity() {
         viewPager.setCurrentItem(0, false)
 
         weatherViewModel.favorites.observe(this) { newFavorites ->
-            Log.d("MainActivity", "Favorites updated: $newFavorites")
             updateFavorites(newFavorites)
-            // 不在这里设置isLoading=false，让HomeScreenFragment在数据加载完再设置
         }
 
         weatherViewModel.isLoading.observe(this) { isLoading ->
@@ -69,23 +66,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Add the fragments to their containers
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add(R.id.search_fragment, searchFragment)
             }
         }
 
-        // 初始状态开始加载数据
         weatherViewModel.setLoading(true)
         weatherViewModel.loadFavorites()
-        // 当HomeScreenFragment数据加载完后会由HomeScreenFragment设置isLoading=false
     }
 
     private fun showProgressBar() {
         loadingPage.visibility = View.VISIBLE
-        // 不要把viewPager设成GONE，保持INVISIBLE让Fragment先行创建
-        // viewPager.visibility = View.GONE
         indicatorTabs.visibility = View.GONE
     }
 

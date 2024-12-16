@@ -1,6 +1,5 @@
 // FavoriteScreenFragment.kt
 package com.example.weatherapp.view.fragments
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +19,6 @@ import com.example.weatherapp.R
 import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activities.DetailActivity
-import com.example.weatherapp.view.activities.MainActivity
 import com.example.weatherapp.view.adapters.ForecastAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton

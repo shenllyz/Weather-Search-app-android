@@ -1,10 +1,8 @@
-// package com.example.weatherapp.view.adapters
-
+package com.example.weatherapp.view.adapters
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.weatherapp.model.FavoriteLocation
 import com.example.weatherapp.view.fragments.FavoriteScreenFragment
