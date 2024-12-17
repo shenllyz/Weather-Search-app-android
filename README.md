@@ -36,20 +36,21 @@ The application includes the following features:
 ## ⚙️ **Tech Stack**
 
 ### **Frontend**:
-- **Language**: Kotlin
-- **Layouts**: XML
-- **IDE**: Android Studio
+- **Language**: [Kotlin](https://kotlinlang.org/)
+- **Layouts**: [XML](https://developer.android.com/guide/topics/ui/declaring-layout)
+- **IDE**: [Android Studio](https://developer.android.com/studio)
 
 ### **Backend**:
-- **Technology**: Node.js
-- **Database**: MongoDB Atlas (NoSQL)
-- **Deployment**: Google Cloud Platform (GCP)
+- **Technology**: [Node.js](https://nodejs.org/)
+- **Database**: [MongoDB Atlas (NoSQL)](https://www.mongodb.com/cloud/atlas)
+- **Deployment**: [Google Cloud Platform (GCP)](https://cloud.google.com/)
 
 ### **APIs**:
-- **Weather Data**: Tomorrow.io API
-- **Current Location**: IPinfo API
-- **Address Lookup & Autocomplete**: Google Geocoding & Places API
-- **HTTP Requests**: Volley (for asynchronous calls)
+- **Weather Data**: [Tomorrow.io API](https://www.tomorrow.io/)
+- **Current Location**: [IPinfo API](https://ipinfo.io/)
+- **Address Lookup & Autocomplete**: [Google Geocoding & Places API](https://developers.google.com/maps/documentation/geocoding/start)
+- **HTTP Requests**: [Volley](https://developer.android.com/training/volley) (for asynchronous calls)
+
 
 ### **Third-Party Libraries**:
 - [Volley](https://developer.android.com/training/volley) - HTTP requests.
@@ -76,14 +77,22 @@ Download and install [Android Studio](https://developer.android.com/studio).
 
 ## 📱 Screenshots
 
-| ![Home Screen](https://github.com/user-attachments/assets/a1faec9e-6932-4a17-973c-02c09d278471) | ![Search AutoComplete](https://github.com/user-attachments/assets/a233e697-5060-46fe-b35c-6511d0f5ca01) | ![Search Result](https://github.com/user-attachments/assets/8ef0dbc9-fa46-405b-94f4-38d125aa096c) |
+| ![Splash Screen](https://github.com/user-attachments/assets/bc6f2010-1fd3-4db4-8175-320b94241cce) | ![Loading Page](https://github.com/user-attachments/assets/5eef62f4-fe45-4c30-a8a7-35cb77a8c663) | ![Home Screen](https://github.com/user-attachments/assets/be80f5e1-af03-47f6-b2f2-645159adc747) |
 |:------------------------:|:------------------------:|:-------------------------:|
-| **Home Screen**         | **Search Autocomplete**  | **Search Result**         |
+| **Splash Screen**         | **Loading Page**  | **Home Screen**          |
 
 | ![Detail Today](https://github.com/user-attachments/assets/fe1dbd29-bb21-4653-92c9-de7ffe48281a) | ![Detail Weekly](https://github.com/user-attachments/assets/1a56dc3e-d58c-4b4a-b9d1-b0f0f4232c6a) | ![Detail Weather Data](https://github.com/user-attachments/assets/a685656d-82c2-4a25-ac4d-2f2b087873d9) |
 |:-------------------------:|:------------------------:|:--------------------------:|
 | **Detail - Today**       | **Detail - Weekly**      | **Detail - Weather Data**  |
 
+| ![Search AutoComplete](https://github.com/user-attachments/assets/66fe1bb2-49aa-4f71-8be4-823afb3eefc9) | ![Search Result](https://github.com/user-attachments/assets/2ca6c5b7-d8a4-40d6-aecf-4fb5c61ef5a8)  | ![image](https://github.com/user-attachments/assets/088219a8-8053-4af0-8ac0-d4b0fc1b3e6e) |
+|:-------------------------:|:------------------------:|:--------------------------:|
+| **Search**         | **Search Result**      | **Add To Favorite**  |
+
+| ![Favorite List](https://github.com/user-attachments/assets/9a1c1dfc-64d9-431b-b5be-6eb3731c5952) | ![Remove From Favorite](https://github.com/user-attachments/assets/884ceb76-bb6a-4113-a67a-befa7ea914fb) | ![Twitter](https://github.com/user-attachments/assets/26158a04-47c6-46a2-93bd-771d9f403380) |
+|:-------------------------:|:------------------------:|:--------------------------:|
+| **Favorite List**       | **Remove From Favorite**      | **Twitter**  |
+ 
 
 ## 📄 License
 
