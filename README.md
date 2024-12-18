@@ -50,12 +50,8 @@ The application includes the following features:
 - **Current Location**: [IPinfo API](https://ipinfo.io/)
 - **Address Lookup & Autocomplete**: [Google Geocoding & Places API](https://developers.google.com/maps/documentation/geocoding/start)
 - **HTTP Requests**: [Volley](https://developer.android.com/training/volley) (for asynchronous calls)
-
-
-### **Third-Party Libraries**:
-- [Volley](https://developer.android.com/training/volley) - HTTP requests.
 - [HighCharts Android](https://www.highcharts.com) - For graphing weather data.
-- [Google Play Services](https://developers.google.com/android/guides/setup) - For location services.
+
 
 ---
 
