@@ -89,7 +89,9 @@ Download and install [Android Studio](https://developer.android.com/studio).
 |:-------------------------:|:------------------------:|:--------------------------:|
 | **Favorite List**       | **Remove From Favorite**      | **Twitter**  |
  
+## 🎥 Demo Video
 
+Watch the video demo of the app in action: [Weather Search Android App Demo](https://drive.google.com/file/d/1t6r0_KLbPTEZO6YOdpQjdLBJTO9VVb9T/view?usp=drive_link)
 ## 📄 License
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
